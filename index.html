@@ -2,7 +2,7 @@
 <html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Guia Didático: Tolerância Protoplasmática Foliar em Gramíneas Forrageiras</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,7 +15,10 @@
           inlineMath: [['$', '$'], ['\\(', '\\)']],
           displayMath: [['$$', '$$'], ['\\[', '\\]']]
         },
-        svg: { fontCache: 'global' }
+        svg: { fontCache: 'global' },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -25,6 +28,7 @@
           extend: {
             colors: {
               embrapa: {
+                950: '#072413',
                 900: '#0d381e',
                 800: '#1b5e20',
                 700: '#2e7d32',
@@ -41,7 +45,6 @@
             },
             fontFamily: {
               sans: ['Inter', 'system-ui', 'sans-serif'],
-              serif: ['Georgia', 'serif'],
             }
           }
         }
@@ -49,95 +52,135 @@
     </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-      body { font-family: 'Inter', sans-serif; }
-      .print-break { page-break-before: always; }
+      body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+      
+      html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+
       .lang-btn.active {
         background-color: #2e7d32;
         color: #ffffff;
         border-color: #4caf50;
         font-weight: 700;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+
+      .touch-manipulation {
+        touch-action: manipulation;
+      }
+
+      @media print {
+        header, footer, #lang-selector, #mobile-menu-btn, .no-print {
+          display: none !important;
+        }
+        body { background: white !important; color: black !important; }
       }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-embrapa-700 selection:text-white">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-embrapa-700 selection:text-white min-h-screen flex flex-col w-full overflow-x-hidden">
 
-    <!-- Header / Navbar Principal -->
+    <!-- HEADER / NAVBAR PRINCIPAL RESPONSIVA -->
     <header class="sticky top-0 z-50 bg-embrapa-900 text-white shadow-md border-b border-embrapa-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-            <div class="flex items-center space-x-3">
-                <i data-lucide="sprout" class="w-8 h-8 text-embrapa-500"></i>
-                <span class="font-bold text-lg tracking-wide hidden sm:inline" data-i18n="brand_title">UEMS / FAUBA • Fisiologia Vegetal</span>
-                <span class="font-bold text-lg tracking-wide sm:hidden" data-i18n="brand_short">Manual de Laboratório</span>
-            </div>
             
-            <nav class="hidden lg:flex space-x-4 text-xs xl:text-sm font-medium">
-                <a href="#apresentacao" class="hover:text-embrapa-500 transition" data-i18n="nav_presentation">Apresentação</a>
-                <a href="#fundamentacao" class="hover:text-embrapa-500 transition" data-i18n="nav_theory">Princípio</a>
-                <a href="#materiais" class="hover:text-embrapa-500 transition" data-i18n="nav_materials">Materiais</a>
-                <a href="#metodologia" class="hover:text-embrapa-500 transition" data-i18n="nav_methodology">Passo a Passo</a>
-                <a href="#calculo" class="hover:text-embrapa-500 transition" data-i18n="nav_calculator">Calculadora</a>
-                <a href="#quiz" class="hover:text-embrapa-500 transition" data-i18n="nav_quiz">Quiz</a>
-                <a href="#glossario" class="hover:text-embrapa-500 transition" data-i18n="nav_glossary">Glossário</a>
-                <a href="#referencias" class="hover:text-embrapa-500 transition" data-i18n="nav_ref">Referências</a>
+            <a href="#" class="flex items-center space-x-2.5 shrink-0">
+                <div class="p-1.5 bg-embrapa-800 rounded-xl border border-embrapa-600/50">
+                    <i data-lucide="sprout" class="w-5 h-5 sm:w-6 sm:h-6 text-embrapa-500"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-xs sm:text-sm lg:text-base tracking-wide block leading-none text-white" data-i18n="brand_title">UEMS / FAUBA • Fisiologia Vegetal</span>
+                    <span class="text-[9px] sm:text-[10px] text-embrapa-100/70 uppercase tracking-wider font-semibold block mt-0.5" data-i18n="brand_short">Manual de Laboratório</span>
+                </div>
+            </a>
+
+            <!-- Navegação Desktop -->
+            <nav class="hidden xl:flex items-center space-x-1 text-xs font-semibold">
+                <a href="#apresentacao" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_presentation">Apresentação</a>
+                <a href="#fundamentacao" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_theory">Princípio</a>
+                <a href="#materiais" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_materials">Materiais</a>
+                <a href="#metodologia" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_methodology">Passo a Passo</a>
+                <a href="#calculo" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_calculator">Calculadora</a>
+                <a href="#quiz" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_quiz">Quiz</a>
+                <a href="#glossario" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_glossary">Glossário</a>
+                <a href="#referencias" class="px-3 py-2 rounded-lg hover:bg-embrapa-800 hover:text-embrapa-100 transition" data-i18n="nav_ref">Referências</a>
             </nav>
 
-            <div class="flex items-center space-x-3">
-                <!-- Seletor de Idioma (i18n) -->
-                <div class="inline-flex rounded-lg bg-slate-800 p-0.5 border border-slate-700 text-xs">
-                    <button onclick="changeLanguage('pt')" id="lang-pt" class="lang-btn active px-2 py-1 rounded-md transition flex items-center gap-1" title="Português (Brasil)">
-                        <span>🇧🇷</span> <span class="hidden md:inline">PT</span>
+            <!-- Controles do Header -->
+            <div class="flex items-center space-x-2">
+                <div id="lang-selector" class="inline-flex rounded-xl bg-slate-800 p-1 border border-slate-700 text-xs shadow-inner">
+                    <button onclick="changeLanguage('pt')" id="lang-pt" class="lang-btn active px-2 sm:px-2.5 py-1 rounded-lg transition flex items-center gap-1 touch-manipulation" title="Português (Brasil)">
+                        <span>🇧🇷</span> <span class="hidden sm:inline text-[11px]">PT</span>
                     </button>
-                    <button onclick="changeLanguage('es')" id="lang-es" class="lang-btn px-2 py-1 rounded-md transition flex items-center gap-1" title="Español (Argentina)">
-                        <span>🇦🇷</span> <span class="hidden md:inline">ES</span>
+                    <button onclick="changeLanguage('es')" id="lang-es" class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition flex items-center gap-1 touch-manipulation" title="Español (Argentina)">
+                        <span>🇦🇷</span> <span class="hidden sm:inline text-[11px]">ES</span>
                     </button>
-                    <button onclick="changeLanguage('en')" id="lang-en" class="lang-btn px-2 py-1 rounded-md transition flex items-center gap-1" title="English (United States)">
-                        <span>🇺🇸</span> <span class="hidden md:inline">EN</span>
+                    <button onclick="changeLanguage('en')" id="lang-en" class="lang-btn px-2 sm:px-2.5 py-1 rounded-lg transition flex items-center gap-1 touch-manipulation" title="English (United States)">
+                        <span>🇺🇸</span> <span class="hidden sm:inline text-[11px]">EN</span>
                     </button>
                 </div>
 
-                <button onclick="window.print()" class="bg-embrapa-700 hover:bg-embrapa-600 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
-                    <i data-lucide="printer" class="w-4 h-4"></i> <span class="hidden sm:inline" data-i18n="btn_print">Imprimir / PDF</span>
+                <button onclick="window.print()" class="hidden sm:flex bg-embrapa-800 hover:bg-embrapa-700 text-white px-3 py-1.5 rounded-xl text-xs font-semibold items-center gap-1.5 border border-embrapa-600 transition touch-manipulation">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i> <span data-i18n="btn_print">Imprimir / PDF</span>
+                </button>
+
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="xl:hidden p-2 rounded-xl bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 focus:outline-none touch-manipulation" aria-label="Abrir Menu">
+                    <i data-lucide="menu" id="menu-icon-open" class="w-5 h-5 block"></i>
+                    <i data-lucide="x" id="menu-icon-close" class="w-5 h-5 hidden"></i>
                 </button>
             </div>
+        </div>
+
+        <!-- MENU MOBILE DRAWER -->
+        <div id="mobile-menu" class="hidden xl:hidden bg-embrapa-950 border-b border-embrapa-800 px-4 pt-2 pb-6 space-y-1 text-sm">
+            <a href="#apresentacao" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_presentation">Apresentação</a>
+            <a href="#fundamentacao" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_theory">Princípio</a>
+            <a href="#materiais" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_materials">Materiais</a>
+            <a href="#metodologia" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_methodology">Passo a Passo</a>
+            <a href="#calculo" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_calculator">Calculadora</a>
+            <a href="#quiz" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_quiz">Quiz</a>
+            <a href="#glossario" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_glossary">Glossário</a>
+            <a href="#referencias" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-xl hover:bg-embrapa-800 text-slate-200" data-i18n="nav_ref">Referências</a>
         </div>
     </header>
 
     <!-- BANNER DA CAPA INSTITUCIONAL -->
-    <section class="relative bg-gradient-to-br from-embrapa-900 via-embrapa-800 to-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section class="relative bg-gradient-to-br from-embrapa-900 via-embrapa-800 to-slate-900 text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div class="max-w-5xl mx-auto relative z-10 text-center">
-            <div class="inline-flex items-center gap-2 bg-embrapa-700/60 border border-embrapa-500 text-embrapa-100 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold mb-6">
+            <div class="inline-flex items-center gap-2 bg-embrapa-700/60 border border-embrapa-500 text-embrapa-100 px-3.5 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold mb-6">
                 <i data-lucide="book-open" class="w-4 h-4"></i> <span data-i18n="hero_badge">Manual Prático de Laboratório • UEMS / FAUBA</span>
             </div>
-            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white mb-4" data-i18n="hero_title">
+            <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight text-white mb-4" data-i18n="hero_title">
                 Avaliação da Integridade Protoplasmática Foliar em Gramíneas Forrageiras sob Estresse Salino e Hídrico
             </h1>
-            <p class="text-sm sm:text-lg text-embrapa-100 font-light max-w-3xl mx-auto mb-8 leading-relaxed" data-i18n="hero_subtitle">
+            <p class="text-xs sm:text-base lg:text-lg text-embrapa-100 font-normal max-w-3xl mx-auto mb-8 leading-relaxed" data-i18n="hero_subtitle">
                 Guia metodológico de bancada para estudantes de graduação em Ciências Agrárias, baseado nos ensaios conduzidos na FAUBA.
             </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-left bg-slate-900/80 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-xs max-w-5xl mx-auto">
-                <div class="flex items-start gap-2.5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-left bg-slate-900/80 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10 text-xs">
+                <div class="flex items-start gap-2.5 p-2 rounded-xl bg-slate-800/40">
                     <i data-lucide="user" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
                     <div>
                         <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_author_label">Acadêmico Bolsista</span>
                         <span class="font-semibold text-slate-100">Benjamin Abel dos Santos</span>
                     </div>
                 </div>
-                <div class="flex items-start gap-2.5">
+                <div class="flex items-start gap-2.5 p-2 rounded-xl bg-slate-800/40">
                     <i data-lucide="award" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
                     <div>
                         <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_advisor_label">Orientadores</span>
                         <span class="font-semibold text-slate-100">Prof. Dr. Tiago Zoz (UEMS) / Profa. Dra. Carla E. Di Bella (FAUBA)</span>
                     </div>
                 </div>
-                <div class="flex items-start gap-2.5">
+                <div class="flex items-start gap-2.5 p-2 rounded-xl bg-slate-800/40">
                     <i data-lucide="building-2" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
                     <div>
                         <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_uems_label">Origem</span>
                         <span class="font-semibold text-slate-100">UEMS - Mundo Novo / Agronomia</span>
                     </div>
                 </div>
-                <div class="flex items-start gap-2.5">
+                <div class="flex items-start gap-2.5 p-2 rounded-xl bg-slate-800/40">
                     <i data-lucide="globe-2" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
                     <div>
                         <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_fauba_label">Mobilidade Internacional</span>
@@ -149,148 +192,149 @@
     </section>
 
     <!-- CONTEÚDO PRINCIPAL CONTAINER -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <main class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16 flex-grow w-full">
 
         <!-- APRESENTAÇÃO E OBJETIVOS DA PESQUISA -->
-        <section id="apresentacao" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div class="lg:col-span-7 bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                <div class="flex items-center gap-3 text-embrapa-800 mb-2">
-                    <i data-lucide="file-text" class="w-6 h-6"></i>
-                    <h2 class="text-2xl font-bold tracking-tight" data-i18n="pres_title">Apresentação do Guia Metodológico</h2>
+        <section id="apresentacao" class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+            <div class="lg:col-span-7 bg-white p-5 sm:p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between space-y-4">
+                <div>
+                    <div class="flex items-center gap-3 text-embrapa-800 mb-3">
+                        <div class="p-2 bg-embrapa-50 rounded-xl text-embrapa-700 border border-embrapa-100">
+                            <i data-lucide="file-text" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                        </div>
+                        <h2 class="text-lg sm:text-2xl font-bold tracking-tight text-slate-900" data-i18n="pres_title">Apresentação do Guia Metodológico</h2>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-xs sm:text-sm mb-4" data-i18n="pres_p1">
+                        Este material didático interativo foi desenvolvido a partir das atividades realizadas durante a mobilidade internacional entre a Universidade Estadual de Mato Grosso do Sul (UEMS) e a Facultad de Agronomía da Universidad de Buenos Aires (FAUBA), pelo discente Benjamin Abel dos Santos, sob orientação do Prof. Dr. Tiago Zoz (UEMS) e da Profa. Dra. Carla E. Di Bella (FAUBA). Constitui um produto educacional destinado a apoiar o ensino da metodologia de avaliação da integridade protoplasmática foliar em gramíneas forrageiras submetidas ao estresse salino e por alagamento.
+                    </p>
+                    <div class="space-y-2 text-xs text-slate-700 bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-slate-200">
+                        <p data-i18n="pres_bullet_1"><strong>• O Problema:</strong> O excesso de sais no solo e o alagamento provocam estresse nas plantas, afetando a absorção de água, a respiração das raízes e o crescimento.</p>
+                        <p data-i18n="pres_bullet_2"><strong>• Por que avaliar a integridade celular?</strong> A membrana celular funciona como uma barreira de proteção. Quando a planta sofre estresse, a membrana perde sua seletividade e deixa vazar sais e nutrientes de dentro da célula.</p>
+                        <p data-i18n="pres_bullet_3"><strong>• Como a condutividade elétrica ajuda?</strong> Ao colocar discos foliares em água pura, os íons liberados pelas células danificadas aumentam a condutividade elétrica da solução. Quanto maior a condutividade, maior é o dano celular.</p>
+                    </div>
                 </div>
-                <p class="text-slate-600 leading-relaxed text-sm" data-i18n="pres_p1">
-                    Este material didático interativo foi desenvolvido a partir das atividades realizadas durante a mobilidade internacional entre a Universidade Estadual de Mato Grosso do Sul (UEMS) e a Facultad de Agronomía da Universidad de Buenos Aires (FAUBA), pelo discente Benjamin Abel dos Santos, sob orientação do Prof. Dr. Tiago Zoz (UEMS) e da Profa. Dra. Carla E. Di Bella (FAUBA). Constitui um produto educacional destinado a apoiar o ensino da metodologia de avaliação da integridade protoplasmática foliar em gramíneas forrageiras submetidas ao estresse salino e por alagamento.
-                </p>
-                <div class="space-y-2 text-xs text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <p data-i18n="pres_bullet_1"><strong>• O Problema:</strong> O excesso de sais no solo e o alagamento provocam estresse nas plantas, afetando a absorção de água, a respiração das raízes e o crescimento.</p>
-                    <p data-i18n="pres_bullet_2"><strong>• Por que avaliar a integridade celular?</strong> A membrana celular funciona como uma barreira de proteção. Quando a planta sofre estresse, a membrana perde sua seletividade e deixa vazar sais e nutrientes de dentro da célula.</p>
-                    <p data-i18n="pres_bullet_3"><strong>• Como a condutividade elétrica ajuda?</strong> Ao colocar discos foliares em água pura, os íons liberados pelas células danificadas aumentam a condutividade elétrica da solução. Quanto maior a condutividade, maior é o dano celular.</p>
-                </div>
-                <div class="bg-embrapa-50 border-l-4 border-embrapa-700 p-3 rounded-r-lg text-xs text-embrapa-900 font-medium" data-i18n="pres_callout">
-                    <i data-lucide="info" class="inline-block w-4 h-4 mr-1 text-embrapa-700"></i> <strong>Objetivo do Protocolo:</strong> Oferecer um método simples, rápido e de baixo custo para medir o dano celular e comparar a resistência de espécies forrageiras.
+                <div class="bg-embrapa-50 border-l-4 border-embrapa-700 p-3 rounded-r-xl text-xs text-embrapa-900 font-medium">
+                    <i data-lucide="info" class="inline-block w-4 h-4 mr-1 text-embrapa-700 -mt-0.5"></i> <strong data-i18n="pres_callout">Objetivo do Protocolo: Oferecer um método simples, rápido e de baixo custo para medir o dano celular e comparar a resistência de espécies forrageiras.</strong>
                 </div>
             </div>
 
-            <div id="objetivos" class="lg:col-span-5 bg-slate-900 text-white p-8 rounded-2xl shadow-md border border-slate-800">
-                <div class="flex items-center gap-3 mb-6 text-embrapa-500">
-                    <i data-lucide="target" class="w-6 h-6"></i>
-                    <h2 class="text-2xl font-bold tracking-tight text-white" data-i18n="obj_title">Objetivos Práticos</h2>
+            <div id="objetivos" class="lg:col-span-5 bg-slate-900 text-white p-5 sm:p-8 rounded-3xl shadow-md border border-slate-800 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 mb-5 text-embrapa-500">
+                        <div class="p-2 bg-slate-800 rounded-xl border border-slate-700">
+                            <i data-lucide="target" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                        </div>
+                        <h2 class="text-lg sm:text-2xl font-bold tracking-tight text-white" data-i18n="obj_title">Objetivos Práticos</h2>
+                    </div>
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                            <span data-i18n="obj_1">Compreender os efeitos do estresse salino e do alagamento nas células vegetais.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                            <span data-i18n="obj_2">Dominar o passo a passo da técnica de medição por condutividade elétrica.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                            <span data-i18n="obj_3">Aprender a operar o condutivímetro e o banho-maria para obter as leituras de CL e CT.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                            <span data-i18n="obj_4">Calcular e interpretar corretamente os índices de integridade (PIA, PIR) e dano celular (PD).</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                            <span data-i18n="obj_5">Comparar a tolerância entre espécies como Festuca arundinacea, Urochloa brizantha e Urochloa ruziziensis.</span>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="space-y-3.5 text-xs sm:text-sm text-slate-300">
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
-                        <span data-i18n="obj_1">Compreender os efeitos do estresse salino e do alagamento nas células vegetais.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
-                        <span data-i18n="obj_2">Dominar o passo a passo da técnica de medição por condutividade elétrica.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
-                        <span data-i18n="obj_3">Aprender a operar o condutivímetro e o banho-maria para obter as leituras de CL e CT.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
-                        <span data-i18n="obj_4">Calcular e interpretar corretamente os índices de integridade (PIA, PIR) e dano celular (PD).</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
-                        <span data-i18n="obj_5">Comparar a tolerância entre espécies como Festuca arundinacea, Urochloa brizantha e Urochloa ruziziensis.</span>
-                    </li>
-                </ul>
             </div>
         </section>
 
         <!-- FUNDAMENTAÇÃO TEÓRICA E FISIOLÓGICA -->
-        <section id="fundamentacao" class="space-y-12">
-            <div class="border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i data-lucide="book-open-check" class="text-embrapa-700"></i> <span data-i18n="theory_sec_title">Princípio Fisiológico da Metodologia</span>
+        <section id="fundamentacao" class="space-y-6 sm:space-y-10">
+            <div class="border-b border-slate-200 pb-3">
+                <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <i data-lucide="book-open-check" class="text-embrapa-700 w-6 h-6 sm:w-7 sm:h-7"></i> <span data-i18n="theory_sec_title">Princípio Fisiológico da Metodologia</span>
                 </h2>
-                <p class="text-slate-500 mt-1" data-i18n="theory_sec_subtitle">Como a resposta celular ao estresse se transforma em dado mensurável na bancada.</p>
+                <p class="text-slate-500 mt-1 text-xs sm:text-sm" data-i18n="theory_sec_subtitle">Como a resposta celular ao estresse se transforma em dado mensurável na bancada.</p>
             </div>
 
-            <!-- Infográfico da Cascata Fisiológica em Fluxo Visually Simple com Ilustração de Folha de Gramínea por Tópico -->
-            <div class="bg-slate-100/90 p-6 sm:p-8 rounded-3xl border border-slate-200 space-y-6 shadow-inner">
-                <h4 class="text-xs uppercase font-bold text-slate-500 tracking-widest text-center" data-i18n="cascade_header">FLUXO DO DANO CELULAR E MEDIÇÃO DA CONDUTIVIDADE</h4>
+            <!-- Infográfico da Cascata Fisiológica -->
+            <div class="bg-slate-100/90 p-4 sm:p-8 rounded-3xl border border-slate-200 space-y-6 shadow-inner">
+                <h3 class="text-[10px] sm:text-xs uppercase font-extrabold text-slate-500 tracking-widest text-center" data-i18n="cascade_header">FLUXO DO DANO CELULAR E MEDIÇÃO DA CONDUTIVIDADE</h3>
 
-                <div class="space-y-6">
-                    <!-- Linha 1: Passos 1 a 3 -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                <div class="space-y-4 sm:space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
                         <!-- Card 1 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
-                            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold mb-2 text-xs flex items-center justify-center">1</span>
-                            <!-- Ilustração: Folha de Gramínea sofrendo Estresse Abiótico -->
-                            <svg class="w-12 h-12 my-1 text-emerald-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px]">
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold mb-2 text-xs flex items-center justify-center">1</span>
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 my-1 text-emerald-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M20 54C20 54 22 30 38 14C46 6 54 4 54 4C54 4 50 14 42 24C28 40 22 54 22 54" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                                 <path d="M28 40C32 30 40 20 48 12" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2"/>
                                 <circle cx="16" cy="24" r="3.5" fill="#0284c7" opacity="0.8"/>
                                 <rect x="42" y="38" width="5" height="5" rx="1" fill="#d97706" opacity="0.9"/>
                                 <rect x="48" y="32" width="4" height="4" rx="1" fill="#d97706" opacity="0.9"/>
                             </svg>
-                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step1_t">Estresse Abiótico</h5>
-                            <p class="text-xs text-slate-500" data-i18n="cascade_step1_d">Salinidade ou falta de oxigênio no solo (alagamento).</p>
+                            <h4 class="font-bold text-xs sm:text-sm text-slate-800 mb-1" data-i18n="cascade_step1_t">Estresse Abiótico</h4>
+                            <p class="text-[11px] sm:text-xs text-slate-500" data-i18n="cascade_step1_d">Salinidade ou falta de oxigênio no solo (alagamento).</p>
                         </div>
 
                         <!-- Card 2 -->
-                        <div class="bg-white p-5 rounded-2xl border border-amber-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
-                            <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-800 font-bold mb-2 text-xs flex items-center justify-center">2</span>
-                            <!-- Ilustração: Membrana de Gramínea sob Ataque de Radicais Livres -->
-                            <svg class="w-12 h-12 my-1 text-amber-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-amber-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px]">
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 text-amber-800 font-bold mb-2 text-xs flex items-center justify-center">2</span>
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 my-1 text-amber-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="12" y="16" width="40" height="32" rx="8" stroke="currentColor" stroke-width="2.5" stroke-dasharray="6 3"/>
                                 <path d="M28 28L32 20L36 28L44 32L36 36L32 44L28 36L20 32L28 28Z" fill="#f59e0b" opacity="0.8"/>
                                 <circle cx="48" cy="20" r="2.5" fill="#ef4444"/>
                                 <circle cx="16" cy="44" r="2.5" fill="#ef4444"/>
                             </svg>
-                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step2_t">Dano na Membrana</h5>
-                            <p class="text-xs text-slate-500" data-i18n="cascade_step2_d">Aumento de radicais livres e perda da seletividade celular.</p>
+                            <h4 class="font-bold text-xs sm:text-sm text-slate-800 mb-1" data-i18n="cascade_step2_t">Dano na Membrana</h4>
+                            <p class="text-[11px] sm:text-xs text-slate-500" data-i18n="cascade_step2_d">Aumento de radicais livres e perda da seletividade celular.</p>
                         </div>
 
                         <!-- Card 3 -->
-                        <div class="bg-white p-5 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
-                            <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-800 font-bold mb-2 text-xs flex items-center justify-center">3</span>
-                            <!-- Ilustração: Disco Foliar de Gramínea (Nervuras Paralelas) Liberação de Íons -->
-                            <svg class="w-12 h-12 my-1 text-rose-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px]">
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-rose-100 text-rose-800 font-bold mb-2 text-xs flex items-center justify-center">3</span>
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 my-1 text-rose-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="32" cy="32" r="16" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/>
                                 <path d="M24 20V44M32 16V48M40 20V44" stroke="#10b981" stroke-width="1.5"/>
                                 <path d="M12 20L6 16M10 40L4 44M52 20L58 16M54 40L60 44" stroke="#f43f5e" stroke-width="2" stroke-linecap="round"/>
                                 <circle cx="5" cy="15" r="2" fill="#f43f5e"/>
                                 <circle cx="59" cy="45" r="2" fill="#f43f5e"/>
                             </svg>
-                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step3_t">Liberação de Sais</h5>
-                            <p class="text-xs text-slate-500" data-i18n="cascade_step3_d">Saída de íons intracelulares para a água pura.</p>
+                            <h4 class="font-bold text-xs sm:text-sm text-slate-800 mb-1" data-i18n="cascade_step3_t">Liberação de Sais</h4>
+                            <p class="text-[11px] sm:text-xs text-slate-500" data-i18n="cascade_step3_d">Saída de íons intracelulares para a água pura.</p>
                         </div>
                     </div>
 
-                    <!-- Linha 2: Passos 4 e 5 -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center max-w-3xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch max-w-3xl mx-auto">
                         <!-- Card 4 -->
-                        <div class="bg-white p-5 rounded-2xl border border-sky-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
-                            <span class="w-8 h-8 rounded-full bg-sky-100 text-sky-800 font-bold mb-2 text-xs flex items-center justify-center">4</span>
-                            <!-- Ilustração: Tubo com Fragmentos de Gramínea e Condutivímetro -->
-                            <svg class="w-12 h-12 my-1 text-sky-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-sky-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px]">
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 text-sky-800 font-bold mb-2 text-xs flex items-center justify-center">4</span>
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 my-1 text-sky-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="24" y="12" width="16" height="40" rx="8" stroke="currentColor" stroke-width="2.5" fill="#f0f9ff"/>
                                 <path d="M25 28C25 28 28 30 32 30C36 30 39 28 39 28V44C39 48.4183 35.4183 52 31 52C26.5817 52 25 48.4183 25 44V28Z" fill="#bae6fd"/>
                                 <rect x="30" y="4" width="4" height="28" fill="#334155"/>
                                 <circle cx="32" cy="36" r="3" fill="#0284c7"/>
                             </svg>
-                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step4_t">Aumento da Condutividade</h5>
-                            <p class="text-xs text-slate-500" data-i18n="cascade_step4_d">Leitura da condutividade elétrica livre (CL) no aparelho.</p>
+                            <h4 class="font-bold text-xs sm:text-sm text-slate-800 mb-1" data-i18n="cascade_step4_t">Aumento da Condutividade</h4>
+                            <p class="text-[11px] sm:text-xs text-slate-500" data-i18n="cascade_step4_d">Leitura da condutividade elétrica livre (CL) no aparelho.</p>
                         </div>
 
                         <!-- Card 5 -->
-                        <div class="bg-embrapa-900 text-white p-5 rounded-2xl shadow-md hover:shadow-lg transition text-center flex flex-col items-center justify-between min-h-[220px]">
-                            <span class="w-8 h-8 rounded-full bg-white text-embrapa-900 font-bold mb-2 text-xs flex items-center justify-center">5</span>
-                            <!-- Ilustração: Quantificação e Avaliação do Dano da Gramínea -->
-                            <svg class="w-12 h-12 my-1 text-embrapa-400" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div class="bg-embrapa-900 text-white p-4 sm:p-5 rounded-2xl shadow-md hover:shadow-lg transition text-center flex flex-col items-center justify-between min-h-[190px] sm:min-h-[220px]">
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-embrapa-900 font-bold mb-2 text-xs flex items-center justify-center">5</span>
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 my-1 text-embrapa-400" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 48H52" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                                 <rect x="18" y="28" width="8" height="20" rx="2" fill="#4caf50"/>
                                 <rect x="30" y="20" width="8" height="28" rx="2" fill="#81c784"/>
                                 <rect x="42" y="36" width="8" height="12" rx="2" fill="#e57373"/>
                                 <path d="M16 22L28 14L40 24L50 10" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <h5 class="font-bold text-sm text-white mb-1" data-i18n="cascade_step5_t">Quantificação do Dano</h5>
-                            <p class="text-xs text-embrapa-200" data-i18n="cascade_step5_d">Cálculo dos índices de PIA, PIR e PD/PMD.</p>
+                            <h4 class="font-bold text-xs sm:text-sm text-white mb-1" data-i18n="cascade_step5_t">Quantificação do Dano</h4>
+                            <p class="text-[11px] sm:text-xs text-embrapa-200" data-i18n="cascade_step5_d">Cálculo dos índices de PIA, PIR e PD/PMD.</p>
                         </div>
                     </div>
                 </div>
@@ -299,17 +343,17 @@
 
         <!-- MATERIAIS UTILIZADOS -->
         <section id="materiais" class="space-y-6">
-            <div class="border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i data-lucide="beaker" class="text-embrapa-700"></i> <span data-i18n="mat_title">Materiais e Equipamentos de Bancada</span>
+            <div class="border-b border-slate-200 pb-3">
+                <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <i data-lucide="beaker" class="text-embrapa-700 w-6 h-6 sm:w-7 sm:h-7"></i> <span data-i18n="mat_title">Materiais e Equipamentos de Bancada</span>
                 </h2>
-                <p class="text-slate-500 mt-1" data-i18n="mat_subtitle">Relação de insumos e vidrarias necessários para a condução do protocolo.</p>
+                <p class="text-slate-500 mt-1 text-xs sm:text-sm" data-i18n="mat_subtitle">Relação de insumos e vidrarias necessários para a condução do protocolo.</p>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs sm:text-sm">
-                        <thead class="bg-embrapa-900 text-white font-semibold uppercase text-[11px] tracking-wider">
+            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto w-full">
+                    <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
+                        <thead class="bg-embrapa-900 text-white font-semibold uppercase text-[10px] sm:text-[11px] tracking-wider">
                             <tr>
                                 <th class="p-3.5 sm:p-4" data-i18n="tbl_item">Material / Equipamento</th>
                                 <th class="p-3.5 sm:p-4" data-i18n="tbl_spec">Especificação Técnica</th>
@@ -318,34 +362,34 @@
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-slate-700 font-medium">
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Folhas de Gramíneas</td>
-                                <td class="p-3.5 sm:p-4">Terço médio de folhas completamente expandidas</td>
-                                <td class="p-3.5 sm:p-4">Material biológico (*Festuca*, *Urochloa*)</td>
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900" data-i18n="mat_1_item">Folhas de Gramíneas</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_1_spec">Terço médio de folhas completamente expandidas</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_1_fun">Material biológico (*Festuca*, *Urochloa*)</td>
                             </tr>
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Tesoura / Furador Foliar</td>
-                                <td class="p-3.5 sm:p-4">Diâmetro de 5 mm (aproximadamente 10 discos por amostragem)</td>
-                                <td class="p-3.5 sm:p-4">Padronização da área foliar exposta à solução</td>
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900" data-i18n="mat_2_item">Tesoura / Furador Foliar</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_2_spec">Diâmetro de 5 mm (aproximadamente 10 discos por amostragem)</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_2_fun">Padronização da área foliar exposta à solução</td>
                             </tr>
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Tubos de Ensaio com Tampa</td>
-                                <td class="p-3.5 sm:p-4">Capacidade de 50 mL com suporte graduado</td>
-                                <td class="p-3.5 sm:p-4">Incubação dos discos e contenção do meio aquoso</td>
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900" data-i18n="mat_3_item">Tubos de Ensaio com Tampa</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_3_spec">Capacidade de 50 mL com suporte graduado</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_3_fun">Incubação dos discos e contenção do meio aquoso</td>
                             </tr>
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Água Destilada e Deionizada</td>
-                                <td class="p-3.5 sm:p-4">Condutividade residual próxima a 0 µS/cm</td>
-                                <td class="p-3.5 sm:p-4">Meio receptor isento de íons interferentes</td>
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900" data-i18n="mat_4_item">Água Destilada e Deionizada</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_4_spec">Condutividade residual próxima a 0 µS/cm</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_4_fun">Meio receptor isento de íons interferentes</td>
                             </tr>
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Condutivímetro Digital</td>
-                                <td class="p-3.5 sm:p-4">Eletrodo de calibração automática com compensação de temp.</td>
-                                <td class="p-3.5 sm:p-4">Quantificação da condutividade livre (CL) e total (CT)</td>
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900" data-i18n="mat_5_item">Condutivímetro Digital</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_5_spec">Eletrodo de calibração automática com compensação de temp.</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_5_fun">Quantificação da condutividade livre (CL) e total (CT)</td>
                             </tr>
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Banho-Maria Termostatisado</td>
-                                <td class="p-3.5 sm:p-4">Ajuste de temperatura a 100 °C por 1 hora</td>
-                                <td class="p-3.5 sm:p-4">Termo-destruição celular completa das membranas</td>
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900" data-i18n="mat_6_item">Banho-Maria Termostatisado</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_6_spec">Ajuste de temperatura a 100 °C por 1 hora</td>
+                                <td class="p-3.5 sm:p-4" data-i18n="mat_6_fun">Termo-destruição celular completa das membranas</td>
                             </tr>
                         </tbody>
                     </table>
@@ -354,193 +398,193 @@
         </section>
 
         <!-- METODOLOGIA PASSO A PASSO -->
-        <section id="metodologia" class="space-y-10">
-            <div class="border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i data-lucide="list-checks" class="text-embrapa-700"></i> <span data-i18n="method_title">Roteiro Metodológico Passo a Passo</span>
+        <section id="metodologia" class="space-y-6 sm:space-y-10">
+            <div class="border-b border-slate-200 pb-3">
+                <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <i data-lucide="list-checks" class="text-embrapa-700 w-6 h-6 sm:w-7 sm:h-7"></i> <span data-i18n="method_title">Roteiro Metodológico Passo a Passo</span>
                 </h2>
-                <p class="text-slate-500 mt-1" data-i18n="method_subtitle">Procedimento de bancada padronizado dividido em 9 etapas sequenciais.</p>
+                <p class="text-slate-500 mt-1 text-xs sm:text-sm" data-i18n="method_subtitle">Procedimento de bancada padronizado dividido em 9 etapas sequenciais.</p>
             </div>
 
             <!-- GRID DAS 9 ETAPAS -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
 
                 <!-- ETAPA 1 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">01</span>
                             <i data-lucide="leaf" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Coleta do Material Foliar</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Selecione folhas totalmente expandidas localizadas preferencialmente no terço médio das plantas forrageiras.</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step1_title">Coleta do Material Foliar</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step1_desc">Selecione folhas totalmente expandidas localizadas preferencialmente no terço médio das plantas forrageiras.</p>
                         
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Evitar folhas senescentes, injuriadas ou com sintomas de pragas/doenças.</p>
-                            <p><strong>• Erro comum:</strong> Amostrar folhas jovens no topo ou velhas na base que possuem permeabilidade alterada.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step1_care"><strong>• Cuidados:</strong> Evitar folhas senescentes, injuriadas ou com sintomas de pragas/doenças.</p>
+                            <p data-i18n="step1_err"><strong>• Erro comum:</strong> Amostrar folhas jovens no topo ou velhas na base que possuem permeabilidade alterada.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step1_tip">
                         💡 <strong>Dica Prática:</strong> Padronize o horário de amostragem para evitar variações do estresse térmico diurno.
                     </div>
                 </div>
 
                 <!-- ETAPA 2 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">02</span>
                             <i data-lucide="scissors" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Remoção de Ápice e Base</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Com a tesoura de laboratório, remova a ponta (ápice) e a porção basal da folha, mantendo apenas a região central.</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step2_title">Remoção de Ápice e Base</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step2_desc">Com a tesoura de laboratório, remova a ponta (ápice) e a porção basal da folha, mantendo apenas a região central.</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Realizar cortes limpos para minimizar traumatismos excessivos ao longo da nervura central.</p>
-                            <p><strong>• Erro comum:</strong> Incluir extremidades da folha que já apresentam necroses ou desidratação natural.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step2_care"><strong>• Cuidados:</strong> Realizar cortes limpos para minimizar traumatismos excessivos ao longo da nervura central.</p>
+                            <p data-i18n="step2_err"><strong>• Erro comum:</strong> Incluir extremidades da folha que já apresentam necroses ou desidratação natural.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step2_tip">
                         💡 <strong>Dica Prática:</strong> A porção mediana possui maturidade fisiológica mais homogênea em gramíneas.
                     </div>
                 </div>
 
                 <!-- ETAPA 3 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">03</span>
                             <i data-lucide="disc" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Obtenção dos Discos Foliar</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Extraia aproximadamente 10 discos de 5 mm de diâmetro (ou fragmentos uniformes de 3 mm) por unidade experimental.</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step3_title">Obtenção dos Discos Foliar</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step3_desc">Extraia aproximadamente 10 discos de 5 mm de diâmetro (ou fragmentos uniformes de 3 mm) por unidade experimental.</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Pressionar o vazador firmemente sobre uma superfície limpa de corte.</p>
-                            <p><strong>• Erro comum:</strong> Esmagamento das bordas dos discos por vazadores sem amolagem adequada.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step3_care"><strong>• Cuidados:</strong> Pressionar o vazador firmemente sobre uma superfície limpa de corte.</p>
+                            <p data-i18n="step3_err"><strong>• Erro comum:</strong> Esmagamento das bordas dos discos por vazadores sem amolagem adequada.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step3_tip">
                         💡 <strong>Dica Prática:</strong> Mantenha o vazador sempre afiado para evitar o extravasamento mecânico não desejado.
                     </div>
                 </div>
 
                 <!-- ETAPA 4 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">04</span>
                             <i data-lucide="droplets" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Lavagem Tripla com Água Deionizada</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Lave os discos foliares exatamente 3 vezes consecutivas com água destilada e deionizada em béquer limpo.</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step4_title">Lavagem Tripla com Água Deionizada</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step4_desc">Lave os discos foliares exatamente 3 vezes consecutivas com água destilada e deionizada em béquer limpo.</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Escorrer suavemente sem danificar o tecido ou secar com papel absorvente de forma brusca.</p>
-                            <p><strong>• Erro comum:</strong> Negligenciar a lavagem, deixando resíduos de sais do solo ou íons das células cortadas.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step4_care"><strong>• Cuidados:</strong> Escorrer suavemente sem danificar o tecido ou secar com papel absorvente de forma brusca.</p>
+                            <p data-i18n="step4_err"><strong>• Erro comum:</strong> Negligenciar a lavagem, deixando resíduos de sais do solo ou íons das células cortadas.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step4_tip">
                         💡 <strong>Dica Prática:</strong> A lavagem elimina o "ruído" iônico proveniente exclusivamente do dano mecânico do corte.
                     </div>
                 </div>
 
                 <!-- ETAPA 5 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">05</span>
                             <i data-lucide="test-tube" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Incubação nos Tubos de Ensaio</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Transfira os discos lavados para tubos contendo exatamente 30 mL de água destilada e deionizada, vedando em seguida.</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step5_title">Incubação nos Tubos de Ensaio</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step5_desc">Transfira os discos lavados para tubos contendo exatamente 30 mL de água destilada e deionizada, vedando em seguida.</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Garantir que todos os discos fiquem totalmente imersos na água pura.</p>
-                            <p><strong>• Erro comum:</strong> Variação no volume de água entre os tubos, o que altera a diluição dos íons.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step5_care"><strong>• Cuidados:</strong> Garantir que todos os discos fiquem totalmente imersos na água pura.</p>
+                            <p data-i18n="step5_err"><strong>• Erro comum:</strong> Variação no volume de água entre os tubos, o que altera a diluição dos íons.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step5_tip">
                         💡 <strong>Dica Prática:</strong> Mantenha os tubos em temperatura ambiente constante (22-25 °C) durante o período.
                     </div>
                 </div>
 
                 <!-- ETAPA 6 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">06</span>
                             <i data-lucide="activity" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Leitura da Condutividade Livre (CL)</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Mergulhe o eletrodo do condutivímetro nos tubos e anote o valor de $CL$ em intervalos (1h a 24h conforme protocolo).</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step6_title">Leitura da Condutividade Livre (CL)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step6_desc">Mergulhe o eletrodo do condutivímetro nos tubos e anote o valor de $CL$ nas horas 1h, 2h, 3h, 4h, 5h, 6h, 9h, 12h e 24h após o início da imersão.</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Lavar o eletrodo com água deionizada entre cada leitura individual.</p>
-                            <p><strong>• Erro comum:</strong> Encostar o sensor diretamente nos discos foliares durante a medição.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step6_care"><strong>• Cuidados:</strong> Lavar o eletrodo com água deionizada entre cada leitura individual.</p>
+                            <p data-i18n="step6_err"><strong>• Erro comum:</strong> Encostar o sensor diretamente nos discos foliares durante a medição.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step6_tip">
                         💡 <strong>Dica Prática:</strong> Homogeneize suavemente o tubo antes de introduzir o sensor para equilibrar a solução.
                     </div>
                 </div>
 
                 <!-- ETAPA 7 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">07</span>
                             <i data-lucide="flame" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Aquecimento em Banho-Maria</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Após 24h, insira os tubos vedados em banho-maria mantido a 100 °C por 1 hora completa para termo-destruição celular.</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step7_title">Aquecimento em Banho-Maria</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step7_desc">Após 24h, insira os tubos vedados em banho-maria mantido a 100 °C por 1 hora completa para termo-destruição celular.</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Certificar-se de que a tampa está bem rosqueada para evitar a evaporação da água.</p>
-                            <p><strong>• Erro comum:</strong> Retirar os tubos antes do tempo ou manter a água do banho em ebulição muito fraca.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step7_care"><strong>• Cuidados:</strong> Certificar-se de que a tampa está bem rosqueada para evitar a evaporação da água.</p>
+                            <p data-i18n="step7_err"><strong>• Erro comum:</strong> Retirar os tubos antes do tempo ou manter a água do banho em ebulição muito fraca.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step7_tip">
                         💡 <strong>Dica Prática:</strong> O aquecimento rompe 100% das membranas restantes, liberando todo o conteúdo iônico.
                     </div>
                 </div>
 
                 <!-- ETAPA 8 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">08</span>
                             <i data-lucide="thermometer-snowflake" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Resfriamento em Temperatura Ambiente</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Remova os tubos do banho-maria e aguarde até que atinjam a temperatura ambiente de referência (aprox. 25 °C).</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step8_title">Resfriamento em Temperatura Ambiente</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step8_desc">Remova os tubos do banho-maria e aguarde até que atinjam a temperatura ambiente de referência (aprox. 25 °C).</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Não realizar a leitura com a solução quente para evitar interferência na medição elétrica.</p>
-                            <p><strong>• Erro comum:</strong> Acelerar o resfriamento com gelo, provocando condensação excessiva dentro das tampas.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step8_care"><strong>• Cuidados:</strong> Não realizar a leitura com a solução quente para evitar interferência na medição elétrica.</p>
+                            <p data-i18n="step8_err"><strong>• Erro comum:</strong> Acelerar o resfriamento com gelo, provocando condensação excessiva dentro das tampas.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step8_tip">
                         💡 <strong>Dica Prática:</strong> Embora o condutivímetro tenha compensação térmica, a calibração é mais precisa a 25 °C.
                     </div>
                 </div>
 
                 <!-- ETAPA 9 -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">09</span>
                             <i data-lucide="calculator" class="w-5 h-5 text-embrapa-600"></i>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 mb-2">Leitura da Condutividade Total e Cálculos</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Realize a leitura de $CT$ e aplique as fórmulas para obter os índices $PIA$, $PIR$ e $PD$ (porcentagem de dano).</p>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-900 mb-1.5" data-i18n="step9_title">Leitura da Condutividade Total e Cálculos</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" data-i18n="step9_desc">Realize a leitura de $CT$ e aplique as fórmulas para obter os índices $PIA$, $PIR$ e $PD$ (porcentagem de dano).</p>
 
-                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <p><strong>• Cuidados:</strong> Registrar a unidade de medição ($\mu\text{S/cm}$ ou $\text{mS/cm}$) corretamente.</p>
-                            <p><strong>• Erro comum:</strong> Confundir os valores de $CL$ e $CT$ na divisão matemática das equações.</p>
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <p data-i18n="step9_care"><strong>• Cuidados:</strong> Registrar a unidade de medição ($\mu\text{S/cm}$ ou $\text{mS/cm}$) corretamente.</p>
+                            <p data-i18n="step9_err"><strong>• Erro comum:</strong> Confundir os valores de $CL$ e $CT$ na divisão matemática das equações.</p>
                         </div>
                     </div>
-                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                    <div class="bg-embrapa-50 p-2.5 sm:p-3 rounded-xl border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium" data-i18n="step9_tip">
                         💡 <strong>Dica Prática:</strong> Utilize a calculadora interativa deste guia na seção seguinte para conferir os resultados.
                     </div>
                 </div>
@@ -549,168 +593,168 @@
         </section>
 
         <!-- CALCULADORA INTERATIVA -->
-        <section id="calculo" class="space-y-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-            <div class="border-b border-slate-200 pb-4">
-                <div class="flex items-center gap-3 text-embrapa-800">
-                    <i data-lucide="calculator" class="w-7 h-7 text-embrapa-700"></i>
-                    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900" data-i18n="calc_title">Calculadora de Integridade e Dano Celular</h2>
+        <section id="calculo" class="space-y-6 sm:space-y-8 bg-white p-5 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm">
+            <div class="border-b border-slate-200 pb-3">
+                <div class="flex items-center gap-2.5 text-embrapa-800">
+                    <i data-lucide="calculator" class="w-6 h-6 sm:w-7 sm:h-7 text-embrapa-700"></i>
+                    <h2 class="text-xl sm:text-3xl font-extrabold tracking-tight text-slate-900" data-i18n="calc_title">Calculadora de Integridade e Dano Celular</h2>
                 </div>
-                <p class="text-slate-500 mt-1 text-sm" data-i18n="calc_subtitle">Insira as leituras de condutividade para calcular automaticamente PIA, PIR e PD.</p>
+                <p class="text-slate-500 mt-1 text-xs sm:text-sm" data-i18n="calc_subtitle">Insira as leituras de condutividade para calcular automaticamente PIA, PIR e PD.</p>
             </div>
 
             <!-- FÓRMULAS FISIOLÓGICAS -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-                    <span class="font-bold text-embrapa-800 block mb-1">Porcentagem de Integridade Absoluta (PIA):</span>
-                    <div class="text-center my-2 text-slate-800 font-mono text-sm">$$PIA = 1 - \left(\frac{CL}{CT}\right)$$</div>
-                    <p class="text-slate-500 text-[11px]">Mede a proporção de membranas mantidas íntegras na amostra individual.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4 bg-slate-50 p-3.5 sm:p-5 rounded-2xl border border-slate-200 text-xs">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs">
+                    <span class="font-bold text-embrapa-800 block mb-1" data-i18n="f_pia_title">Porcentagem de Integridade Absoluta (PIA):</span>
+                    <div class="overflow-x-auto text-center my-1.5 text-slate-800 font-mono text-xs sm:text-sm">$$PIA = 1 - \left(\frac{CL}{CT}\right)$$</div>
+                    <p class="text-slate-500 text-[10px] sm:text-[11px]" data-i18n="f_pia_desc">Mede a proporção de membranas mantidas íntegras na amostra individual.</p>
                 </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-                    <span class="font-bold text-embrapa-800 block mb-1">Porcentagem de Integridade Relativa (PIR):</span>
-                    <div class="text-center my-2 text-slate-800 font-mono text-sm">$$PIR = \left(\frac{PIA_{\text{estressada}}}{PIA_{\text{controle}}}\right) \times 100$$</div>
-                    <p class="text-slate-500 text-[11px]">Compara a integridade da planta estressada em relação à testemunha (controle).</p>
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs">
+                    <span class="font-bold text-embrapa-800 block mb-1" data-i18n="f_pir_title">Porcentagem de Integridade Relativa (PIR):</span>
+                    <div class="overflow-x-auto text-center my-1.5 text-slate-800 font-mono text-xs sm:text-sm">$$PIR = \left(\frac{PIA_{\text{estressada}}}{PIA_{\text{controle}}}\right) \times 100$$</div>
+                    <p class="text-slate-500 text-[10px] sm:text-[11px]" data-i18n="f_pir_desc">Compara a integridade da planta estressada em relação à testemunha (controle).</p>
                 </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-                    <span class="font-bold text-embrapa-800 block mb-1">Porcentagem de Danos (PD / PMD):</span>
-                    <div class="text-center my-2 text-slate-800 font-mono text-sm">$$PD = 100 - PIR$$</div>
-                    <p class="text-slate-500 text-[11px]">Expressa a porcentagem acumulada de membranas degradadas pelo estresse.</p>
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs">
+                    <span class="font-bold text-embrapa-800 block mb-1" data-i18n="f_pd_title">Porcentagem de Danos (PD / PMD):</span>
+                    <div class="overflow-x-auto text-center my-1.5 text-slate-800 font-mono text-xs sm:text-sm">$$PD = 100 - PIR$$</div>
+                    <p class="text-slate-500 text-[10px] sm:text-[11px]" data-i18n="f_pd_desc">Expressa a porcentagem acumulada de membranas degradadas pelo estresse.</p>
                 </div>
             </div>
 
-            <!-- ENTRADA DE DADOS E FORMULÁRIO -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- ENTRADA DE DADOS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 <!-- AMOSTRA CONTROLE -->
-                <div class="space-y-4 bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
-                    <h3 class="font-bold text-base text-emerald-900 flex items-center gap-2">
-                        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-700"></i> Planta Controle (Testemunha)
+                <div class="space-y-3.5 bg-emerald-50/50 p-4 sm:p-6 rounded-2xl border border-emerald-100">
+                    <h3 class="font-bold text-sm sm:text-base text-emerald-900 flex items-center gap-2" data-i18n="ctrl_card_title">
+                        <i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-700"></i> Planta Controle (Testemunha)
                     </h3>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Livre ($CL_{\text{controle}}$) [$\mu\text{S/cm}$]:</label>
-                        <input type="number" id="cl_ctrl" value="12.5" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl_cl_ctrl">Condutividade Livre ($CL_{\text{controle}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="cl_ctrl" value="12.5" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Total ($CT_{\text{controle}}$) [$\mu\text{S/cm}$]:</label>
-                        <input type="number" id="ct_ctrl" value="210.0" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl_ct_ctrl">Condutividade Total ($CT_{\text{controle}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="ct_ctrl" value="210.0" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
-                    <div class="pt-2 border-t border-emerald-200/60">
-                        <span class="text-xs text-emerald-800 font-medium">PIA Controle ($PIA_{\text{ctrl}}$):</span>
-                        <span id="res_pia_ctrl" class="font-mono font-bold text-emerald-900 text-sm ml-2">0.9405 (94.05%)</span>
+                    <div class="pt-2 border-t border-emerald-200/60 flex items-center justify-between">
+                        <span class="text-xs text-emerald-800 font-medium" data-i18n="res_lbl_pia_ctrl">PIA Controle ($PIA_{\text{ctrl}}$):</span>
+                        <span id="res_pia_ctrl" class="font-mono font-bold text-emerald-900 text-xs sm:text-sm">0.9405 (94.05%)</span>
                     </div>
                 </div>
 
                 <!-- AMOSTRA ESTRESSADA -->
-                <div class="space-y-4 bg-amber-50/50 p-6 rounded-2xl border border-amber-100">
-                    <h3 class="font-bold text-base text-amber-900 flex items-center gap-2">
-                        <i data-lucide="zap" class="w-5 h-5 text-amber-700"></i> Planta Estressada (Tratamento)
+                <div class="space-y-3.5 bg-amber-50/50 p-4 sm:p-6 rounded-2xl border border-amber-100">
+                    <h3 class="font-bold text-sm sm:text-base text-amber-900 flex items-center gap-2" data-i18n="stress_card_title">
+                        <i data-lucide="zap" class="w-4 h-4 sm:w-5 sm:h-5 text-amber-700"></i> Planta Estressada (Tratamento)
                     </h3>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Livre ($CL_{\text{estressada}}$) [$\mu\text{S/cm}$]:</label>
-                        <input type="number" id="cl_stress" value="38.4" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl_cl_stress">Condutividade Livre ($CL_{\text{estressada}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="cl_stress" value="38.4" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Total ($CT_{\text{estressada}}$) [$\mu\text{S/cm}$]:</label>
-                        <input type="number" id="ct_stress" value="205.0" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl_ct_stress">Condutividade Total ($CT_{\text{estressada}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="ct_stress" value="205.0" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
-                    <div class="pt-2 border-t border-amber-200/60">
-                        <span class="text-xs text-amber-800 font-medium">PIA Estressada ($PIA_{\text{est}}$):</span>
-                        <span id="res_pia_stress" class="font-mono font-bold text-amber-900 text-sm ml-2">0.8127 (81.27%)</span>
+                    <div class="pt-2 border-t border-amber-200/60 flex items-center justify-between">
+                        <span class="text-xs text-amber-800 font-medium" data-i18n="res_lbl_pia_stress">PIA Estressada ($PIA_{\text{est}}$):</span>
+                        <span id="res_pia_stress" class="font-mono font-bold text-amber-900 text-xs sm:text-sm">0.8127 (81.27%)</span>
                     </div>
                 </div>
             </div>
 
             <!-- RESULTADOS CALCULADOS -->
-            <div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+            <div class="bg-slate-900 text-white p-4 sm:p-6 rounded-2xl border border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-center">
                 <div class="text-center p-3 bg-slate-800/80 rounded-xl border border-slate-700">
-                    <span class="block text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Integridade Relativa (PIR)</span>
-                    <span id="res_pir" class="text-2xl font-black text-emerald-400">86.41%</span>
+                    <span class="block text-[10px] sm:text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-1" data-i18n="res_pir_title">Integridade Relativa (PIR)</span>
+                    <span id="res_pir" class="text-xl sm:text-2xl font-black text-emerald-400">86.41%</span>
                 </div>
 
                 <div class="text-center p-3 bg-slate-800/80 rounded-xl border border-slate-700">
-                    <span class="block text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Porcentagem de Danos (PD / PMD)</span>
-                    <span id="res_pd" class="text-2xl font-black text-rose-400">13.59%</span>
+                    <span class="block text-[10px] sm:text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-1" data-i18n="res_pd_title">Porcentagem de Danos (PD / PMD)</span>
+                    <span id="res_pd" class="text-xl sm:text-2xl font-black text-rose-400">13.59%</span>
                 </div>
 
                 <div class="text-left text-xs space-y-1 bg-slate-800/50 p-3 rounded-xl border border-slate-700/60">
-                    <span class="font-bold text-embrapa-400 block mb-1">Diagnóstico Fisiológico:</span>
+                    <span class="font-bold text-embrapa-400 block mb-0.5" data-i18n="calc_diag_title">Diagnóstico Fisiológico:</span>
                     <p id="calc_diag" class="text-slate-300 leading-snug">Dano celular moderado na membrana foliar induzido pela condição de estresse.</p>
                 </div>
             </div>
         </section>
 
         <!-- QUIZ DIDÁTICO INTERATIVO -->
-        <section id="quiz" class="space-y-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-            <div class="border-b border-slate-200 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <section id="quiz" class="space-y-6 sm:space-y-8 bg-white p-5 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm">
+            <div class="border-b border-slate-200 pb-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div>
-                    <div class="flex items-center gap-3 text-embrapa-800">
-                        <i data-lucide="help-circle" class="w-7 h-7 text-embrapa-700"></i>
-                        <h2 class="text-3xl font-extrabold tracking-tight text-slate-900" data-i18n="quiz_sec_title">Quiz de Fixação de Conhecimentos</h2>
+                    <div class="flex items-center gap-2.5 text-embrapa-800">
+                        <i data-lucide="help-circle" class="w-6 h-6 sm:w-7 sm:h-7 text-embrapa-700"></i>
+                        <h2 class="text-xl sm:text-3xl font-extrabold tracking-tight text-slate-900" data-i18n="quiz_sec_title">Quiz de Fixação de Conhecimentos</h2>
                     </div>
-                    <p class="text-slate-500 mt-1 text-sm" data-i18n="quiz_sec_subtitle">Testes práticos de múltipla escolha com gabarito explicativo em tempo real.</p>
+                    <p class="text-slate-500 mt-1 text-xs sm:text-sm" data-i18n="quiz_sec_subtitle">Testes práticos de múltipla escolha com gabarito explicativo em tempo real.</p>
                 </div>
-                <div class="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 border border-slate-200">
+                <div class="flex items-center gap-2 bg-slate-100 px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-700 border border-slate-200 self-start md:self-auto">
                     <span data-i18n="quiz_score_label">Pontuação:</span>
                     <span id="quiz-score" class="text-embrapa-700 font-mono text-sm">0 / 10</span>
                 </div>
             </div>
 
             <!-- CONTAINER DO QUIZ -->
-            <div id="quiz-container" class="space-y-6">
-                <!-- As perguntas serão renderizadas dinamicamente via JS -->
+            <div id="quiz-container" class="space-y-5 sm:space-y-6">
+                <!-- Módulos de questões renderizados dinamicamente via JavaScript -->
             </div>
         </section>
 
         <!-- GLOSSÁRIO DE TERMOS -->
-        <section id="glossario" class="space-y-8">
-            <div class="border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i data-lucide="book-marked" class="text-embrapa-700"></i> <span data-i18n="gloss_title">Glossário de Fisiologia Vegetal</span>
+        <section id="glossario" class="space-y-6 sm:space-y-8">
+            <div class="border-b border-slate-200 pb-3">
+                <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <i data-lucide="book-marked" class="text-embrapa-700 w-6 h-6 sm:w-7 sm:h-7"></i> <span data-i18n="gloss_title">Glossário de Fisiologia Vegetal</span>
                 </h2>
-                <p class="text-slate-500 mt-1" data-i18n="gloss_subtitle">Definições técnicas e conceitos fundamentais aplicados no protocolo.</p>
+                <p class="text-slate-500 mt-1 text-xs sm:text-sm" data-i18n="gloss_subtitle">Definições técnicas e conceitos fundamentais aplicados no protocolo.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
-                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g1_t">Integridade Protoplasmática</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-xs sm:text-sm text-embrapa-900" data-i18n="g1_t">Integridade Protoplasmática</h3>
                     <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g1_d">Capacidade das membranas celulares de manterem sua estrutura, seletividade e retenção de íons internos sem vazamento para o meio aquoso externo.</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
-                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g2_t">Condutividade Elétrica (CE)</h3>
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-xs sm:text-sm text-embrapa-900" data-i18n="g2_t">Condutividade Elétrica (CE)</h3>
                     <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g2_d">Medida da capacidade de uma solução aquosa conduzir corrente elétrica, diretamente proporcional à concentração de íons e sais dissolvidos.</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
-                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g3_t">Estresse Salino</h3>
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-xs sm:text-sm text-embrapa-900" data-i18n="g3_t">Estresse Salino</h3>
                     <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g3_d">Condição adversa provocada pelo excesso de sais (ex: NaCl) no solo, resultando em inibição osmótica da absorção de água e toxicidade iônica direta.</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
-                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g4_t">Alagamento / Encharcamento</h3>
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-xs sm:text-sm text-embrapa-900" data-i18n="g4_t">Alagamento / Encharcamento</h3>
                     <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g4_d">Acúmulo excessivo de água na zona radicular que expulsa o ar do solo, levando a condições de hipóxia ou anoxia nas raízes da planta.</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
-                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g5_t">Radicais Livres (ERO)</h3>
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-xs sm:text-sm text-embrapa-900" data-i18n="g5_t">Radicais Livres (ERO)</h3>
                     <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g5_d">Espécies Reativas de Oxigênio (como peróxido e radical superóxido) que atacam os lipídios das membranas durante condições de estresse metabólico.</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
-                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g6_t">Estresse Oxidativo</h3>
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-xs sm:text-sm text-embrapa-900" data-i18n="g6_t">Estresse Oxidativo</h3>
                     <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g6_d">Desequilíbrio entre a produção exacerbada de radicais livres e a capacidade de defesa antioxidante da célula vegetal, resultando em danos celulares.</p>
                 </div>
             </div>
         </section>
 
-        <!-- REFERÊNCIAS BIBLIOGRÁFICAS (EXCLUSIVAS DO RELATÓRIO) -->
+        <!-- REFERÊNCIAS BIBLIOGRÁFICAS -->
         <section id="referencias" class="space-y-6">
-            <div class="border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i data-lucide="bookmark" class="text-embrapa-700"></i> <span data-i18n="ref_title">Referencias Bibliográficas</span>
+            <div class="border-b border-slate-200 pb-3">
+                <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <i data-lucide="bookmark" class="text-embrapa-700 w-6 h-6 sm:w-7 sm:h-7"></i> <span data-i18n="ref_title">Referências Bibliográficas</span>
                 </h2>
                 <p class="text-slate-500 mt-1 text-xs" data-i18n="ref_subtitle">Literatura científica citada exclusivamente no Relatório Final de Iniciação Científica (UEMS / FAUBA).</p>
             </div>
 
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs text-xs space-y-3 font-mono text-slate-700 leading-relaxed">
+            <div class="bg-white p-4 sm:p-6 rounded-3xl border border-slate-200/80 shadow-xs text-[11px] sm:text-xs space-y-3 font-mono text-slate-700 leading-relaxed overflow-x-auto">
                 <p>ACOSTA-MOTOS, J.R.; ORTUÑO, M.F.; BERNAL-VICENTE, A.; DIAZ VIVANCOS, P.; SANCHEZ-BLANCO, M.J.; HERNANDEZ, J.A. Plant Responses to Salt Stress: Adaptive Mechanisms. <strong>Agronomy</strong>, v. 7, n. 1, p. 1-38, 2017.</p>
                 <p>ALMEIDA, A.M.; VRIEZEN, W.H.; STRAETEN, D. Molecular and Physiological mechanisms of flooding avoidance and tolerance in rice. <strong>Russian Journal of Plant Physiology</strong>, v. 50, p. 743-751, 2003.</p>
                 <p>ARGENTINA. RADRIZZANI, A. (org.). <strong>Forrajes, pasturas y pastizales</strong>. 2024. Disponível em: &lt;https://www.argentina.gob.ar/forrajes-pasturas-y-pastizales&gt;. Acesso em: 29 out. 2024.</p>
@@ -744,15 +788,15 @@
     </main>
 
     <!-- FOOTER INSTITUCIONAL -->
-    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 text-xs">
-        <div class="max-w-6xl mx-auto px-4 text-center space-y-3">
-            <p>© 2026 UEMS • Universidad Estadual de Mato Grosso do Sul | FAUBA • Universidad de Buenos Aires</p>
+    <footer class="bg-slate-900 text-slate-400 py-8 sm:py-10 border-t border-slate-800 text-xs">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-2.5">
+            <p>© 2026 UEMS • Universidade Estadual de Mato Grosso do Sul | FAUBA • Universidad de Buenos Aires</p>
             <p>Projeto de Iniciação Científica - Edital Conjunto N° 32/2024 DRI-PROPPI/UEMS</p>
-            <p class="text-slate-500 text-[11px]">Desenvolvido por Benjamin Abel dos Santos | Orientadores: Prof. Dr. Tiago Zoz & Profa. Dra. Carla E. Di Bella</p>
+            <p class="text-slate-500 text-[10px] sm:text-[11px]">Desenvolvido por Benjamin Abel dos Santos | Orientadores: Prof. Dr. Tiago Zoz & Profa. Dra. Carla E. Di Bella</p>
         </div>
     </footer>
 
-    <!-- SCRIPTS DE INTERATIVIDADE E SISTEMA DE I18N -->
+    <!-- SCRIPTS DE INTERATIVIDADE E SISTEMA DE I18N COMPLETO -->
     <script>
       // DICIONÁRIO COMPLETO DE TRADUÇÃO (i18n)
       const translations = {
@@ -805,10 +849,90 @@
           tbl_item: "Material / Equipamento",
           tbl_spec: "Especificação Técnica",
           tbl_fun: "Função Fisiológica / Operacional",
+          mat_1_item: "Folhas de Gramíneas",
+          mat_1_spec: "Terço médio de folhas completamente expandidas",
+          mat_1_fun: "Material biológico (*Festuca*, *Urochloa*)",
+          mat_2_item: "Tesoura / Furador Foliar",
+          mat_2_spec: "Diâmetro de 5 mm (aproximadamente 10 discos por amostragem)",
+          mat_2_fun: "Padronização da área foliar exposta à solução",
+          mat_3_item: "Tubos de Ensaio com Tampa",
+          mat_3_spec: "Capacidade de 50 mL com suporte graduado",
+          mat_3_fun: "Incubação dos discos e contenção do meio aquoso",
+          mat_4_item: "Água Destilada e Deionizada",
+          mat_4_spec: "Condutividade residual próxima a 0 µS/cm",
+          mat_4_fun: "Meio receptor isento de íons interferentes",
+          mat_5_item: "Condutivímetro Digital",
+          mat_5_spec: "Eletrodo de calibração automática com compensação de temp.",
+          mat_5_fun: "Quantificação da condutividade livre (CL) e total (CT)",
+          mat_6_item: "Banho-Maria Termostatisado",
+          mat_6_spec: "Ajuste de temperatura a 100 °C por 1 hora",
+          mat_6_fun: "Termo-destruição celular completa das membranas",
           method_title: "Roteiro Metodológico Passo a Passo",
           method_subtitle: "Procedimento de bancada padronizado dividido em 9 etapas sequenciais.",
+          step1_title: "Coleta do Material Foliar",
+          step1_desc: "Selecione folhas totalmente expandidas localizadas preferencialmente no terço médio das plantas forrageiras.",
+          step1_care: "<strong>• Cuidados:</strong> Evitar folhas senescentes, injuriadas ou com sintomas de pragas/doenças.",
+          step1_err: "<strong>• Erro comum:</strong> Amostrar folhas jovens no topo ou velhas na base que possuem permeabilidade alterada.",
+          step1_tip: "💡 <strong>Dica Prática:</strong> Padronize o horário de amostragem para evitar variações do estresse térmico diurno.",
+          step2_title: "Remoção de Ápice e Base",
+          step2_desc: "Com a tesoura de laboratório, remova a ponta (ápice) e a porção basal da folha, mantendo apenas a região central.",
+          step2_care: "<strong>• Cuidados:</strong> Realizar cortes limpos para minimizar traumatismos excessivos ao longo da nervura central.",
+          step2_err: "<strong>• Erro comum:</strong> Incluir extremidades da folha que já apresentam necroses ou desidratação natural.",
+          step2_tip: "💡 <strong>Dica Prática:</strong> A porção mediana possui maturidade fisiológica mais homogênea em gramíneas.",
+          step3_title: "Obtenção dos Discos Foliar",
+          step3_desc: "Extraia aproximadamente 10 discos de 5 mm de diâmetro (ou fragmentos uniformes de 3 mm) por unidade experimental.",
+          step3_care: "<strong>• Cuidados:</strong> Pressionar o vazador firmemente sobre uma superfície limpa de corte.",
+          step3_err: "<strong>• Erro comum:</strong> Esmagamento das bordas dos discos por vazadores sem amolagem adequada.",
+          step3_tip: "💡 <strong>Dica Prática:</strong> Mantenha o vazador sempre afiado para evitar o extravasamento mecânico não desejado.",
+          step4_title: "Lavagem Tripla com Água Deionizada",
+          step4_desc: "Lave os discos foliares exatamente 3 vezes consecutivas com água destilada e deionizada em béquer limpo.",
+          step4_care: "<strong>• Cuidados:</strong> Escorrer suavemente sem danificar o tecido ou secar com papel absorvente de forma brusca.",
+          step4_err: "<strong>• Erro comum:</strong> Negligenciar a lavagem, deixando resíduos de sais do solo ou íons das células cortadas.",
+          step4_tip: "💡 <strong>Dica Prática:</strong> A lavagem elimina o \"ruído\" iônico proveniente exclusivamente do dano mecânico do corte.",
+          step5_title: "Incubação nos Tubos de Ensaio",
+          step5_desc: "Transfira os discos lavados para tubos contendo exatamente 30 mL de água destilada e deionizada, vedando em seguida.",
+          step5_care: "<strong>• Cuidados:</strong> Garantir que todos os discos fiquem totalmente imersos na água pura.",
+          step5_err: "<strong>• Erro comum:</strong> Variação no volume de água entre os tubos, o que altera a diluição dos íons.",
+          step5_tip: "💡 <strong>Dica Prática:</strong> Mantenha os tubos em temperatura ambiente constante (22-25 °C) durante o período.",
+          step6_title: "Leitura da Condutividade Livre (CL)",
+          step6_desc: "Mergulhe o eletrodo do condutivímetro nos tubos e anote o valor de $CL$ nas horas 1h, 2h, 3h, 4h, 5h, 6h, 9h, 12h e 24h após o início da imersão.",
+          step6_care: "<strong>• Cuidados:</strong> Lavar o eletrodo com água deionizada entre cada leitura individual.",
+          step6_err: "<strong>• Erro comum:</strong> Encostar o sensor diretamente nos discos foliares durante a medição.",
+          step6_tip: "💡 <strong>Dica Prática:</strong> Homogeneize suavemente o tubo antes de introduzir o sensor para equilibrar a solução.",
+          step7_title: "Aquecimento em Banho-Maria",
+          step7_desc: "Após 24h, insira os tubos vedados em banho-maria mantido a 100 °C por 1 hora completa para termo-destruição celular.",
+          step7_care: "<strong>• Cuidados:</strong> Certificar-se de que a tampa está bem rosqueada para evitar a evaporação da água.",
+          step7_err: "<strong>• Erro comum:</strong> Retirar os tubos antes do tempo ou manter a água do banho em ebulição muito fraca.",
+          step7_tip: "💡 <strong>Dica Prática:</strong> O aquecimento rompe 100% das membranas restantes, liberando todo o conteúdo iônico.",
+          step8_title: "Resfriamento em Temperatura Ambiente",
+          step8_desc: "Remova os tubos do banho-maria e aguarde até que atinjam a temperatura ambiente de referência (aprox. 25 °C).",
+          step8_care: "<strong>• Cuidados:</strong> Não realizar a leitura com a solução quente para evitar interferência na medição elétrica.",
+          step8_err: "<strong>• Erro comum:</strong> Acelerar o resfriamento com gelo, provocando condensação excessiva dentro das tampas.",
+          step8_tip: "💡 <strong>Dica Prática:</strong> Embora o condutivímetro tenha compensação térmica, a calibração é mais precisa a 25 °C.",
+          step9_title: "Leitura da Condutividade Total e Cálculos",
+          step9_desc: "Realize a leitura de $CT$ e aplique as fórmulas para obter os índices $PIA$, $PIR$ e $PD$ (porcentagem de dano).",
+          step9_care: "<strong>• Cuidados:</strong> Registrar a unidade de medição ($\mu\text{S/cm}$ ou $\text{mS/cm}$) corretamente.",
+          step9_err: "<strong>• Erro comum:</strong> Confundir os valores de $CL$ e $CT$ na divisão matemática das equações.",
+          step9_tip: "💡 <strong>Dica Prática:</strong> Utilize a calculadora interativa deste guia na seção seguinte para conferir os resultados.",
           calc_title: "Calculadora de Integridade e Dano Celular",
           calc_subtitle: "Insira as leituras de condutividade para calcular automaticamente PIA, PIR e PD.",
+          f_pia_title: "Porcentagem de Integridade Absoluta (PIA):",
+          f_pia_desc: "Mede a proporção de membranas mantidas íntegras na amostra individual.",
+          f_pir_title: "Porcentagem de Integridade Relativa (PIR):",
+          f_pir_desc: "Compara a integridade da planta estressada em relação à testemunha (controle).",
+          f_pd_title: "Porcentagem de Danos (PD / PMD):",
+          f_pd_desc: "Expressa a porcentagem acumulada de membranas degradadas pelo estresse.",
+          ctrl_card_title: "Planta Controle (Testemunha)",
+          stress_card_title: "Planta Estressada (Tratamento)",
+          lbl_cl_ctrl: "Condutividade Livre ($CL_{\text{controle}}$) [$\mu\text{S/cm}$]:",
+          lbl_ct_ctrl: "Condutividade Total ($CT_{\text{controle}}$) [$\mu\text{S/cm}$]:",
+          res_lbl_pia_ctrl: "PIA Controle ($PIA_{\text{ctrl}}$):",
+          lbl_cl_stress: "Condutividade Livre ($CL_{\text{estressada}}$) [$\mu\text{S/cm}$]:",
+          lbl_ct_stress: "Condutividade Total ($CT_{\text{estressada}}$) [$\mu\text{S/cm}$]:",
+          res_lbl_pia_stress: "PIA Estressada ($PIA_{\text{est}}$):",
+          res_pir_title: "Integridade Relativa (PIR)",
+          res_pd_title: "Porcentagem de Danos (PD / PMD)",
+          calc_diag_title: "Diagnóstico Fisiológico:",
           quiz_sec_title: "Quiz de Fixação de Conhecimentos",
           quiz_sec_subtitle: "Testes práticos de múltipla escolha com gabarito explicativo em tempo real.",
           quiz_score_label: "Pontuação:",
@@ -823,7 +947,7 @@
           g4_t: "Alagamento / Encharcamento",
           g4_d: "Acúmulo excessivo de água na zona radicular que expulsa o ar do solo, levando a condições de hipóxia ou anoxia nas raízes da planta.",
           g5_t: "Radicais Livres (ERO)",
-          g5_d: "Espécies Reativas de Oxigênio (como peróxido e radical superóxido) que atacam os lipídios das membranas durante condições de estresse metabólico.",
+          g5_d: "Espécies Reativas de Oxigenio (como peróxido e radical superóxido) que atacam os lipídios das membranas durante condições de estresse metabólico.",
           g6_t: "Estresse Oxidativo",
           g6_d: "Desequilíbrio entre a produção exacerbada de radicais livres e a capacidade de defesa antioxidante da célula vegetal, resultando em danos celulares.",
           ref_title: "Referências Bibliográficas",
@@ -878,10 +1002,90 @@
           tbl_item: "Material / Equipo",
           tbl_spec: "Especificación Técnica",
           tbl_fun: "Función Fisiológica / Operativa",
+          mat_1_item: "Hojas de Gramíneas",
+          mat_1_spec: "Tercio medio de hojas completamente expandidas",
+          mat_1_fun: "Material biológico (*Festuca*, *Urochloa*)",
+          mat_2_item: "Tijera / Saca-bocados Foliar",
+          mat_2_spec: "Diámetro de 5 mm (aproximadamente 10 discos por muestra)",
+          mat_2_fun: "Estandarización del área foliar expuesta a la solución",
+          mat_3_item: "Tubos de Ensayo con Tapa",
+          mat_3_spec: "Capacidad de 50 mL con gradilla de soporte",
+          mat_3_fun: "Incubación de los discos y contención del medio acuoso",
+          mat_4_item: "Agua Destilada y Deionizada",
+          mat_4_spec: "Conductividad residual cercana a 0 µS/cm",
+          mat_4_fun: "Medio receptor libre de iones interferentes",
+          mat_5_item: "Conductímetro Digital",
+          mat_5_spec: "Electrodo de calibración automática con compensación de temp.",
+          mat_5_fun: "Cuantificación de conductividad libre (CL) y total (CT)",
+          mat_6_item: "Baño Termostático",
+          mat_6_spec: "Ajuste de temperatura a 100 °C durante 1 hora",
+          mat_6_fun: "Termo-destrucción celular completa de las membranas",
           method_title: "Guía Metodológica Paso a Paso",
           method_subtitle: "Procedimiento de mesada estandarizado dividido en 9 etapas secuenciales.",
+          step1_title: "Colecta de Material Foliar",
+          step1_desc: "Seleccione hojas completamente expandidas ubicadas preferentemente en el tercio medio de las plantas forrajeras.",
+          step1_care: "<strong>• Cuidados:</strong> Evitar hojas senescentes, dañadas o con síntomas de plagas/enfermedades.",
+          step1_err: "<strong>• Error común:</strong> Muestrear hojas jóvenes del ápice o viejas de la base con permeabilidad alterada.",
+          step1_tip: "💡 <strong>Consejo Práctico:</strong> Estandarice el horario de muestreo para evitar variaciones por estrés térmico diurno.",
+          step2_title: "Remoción de Ápice y Base",
+          step2_desc: "Con tijeras de laboratorio, remueva la punta (ápice) y la porción basal de la hoja, conservando únicamente la región central.",
+          step2_care: "<strong>• Cuidados:</strong> Realizar cortes limpios para minimizar traumatismos excesivos en la nervadura central.",
+          step2_err: "<strong>• Error común:</strong> Incluir extremos de la hoja que ya presenten necrosis o deshidratación natural.",
+          step2_tip: "💡 <strong>Consejo Práctico:</strong> La porción mediana posee una madurez fisiológica más homogénea en gramíneas.",
+          step3_title: "Obtención de los Discos Foliares",
+          step3_desc: "Extraiga aproximadamente 10 discos de 5 mm de diámetro (o fragmentos uniformes de 3 mm) por unidad experimental.",
+          step3_care: "<strong>• Cuidados:</strong> Presionar el saca-bocados firmemente sobre una superficie limpia de corte.",
+          step3_err: "<strong>• Error común:</strong> Aplastamiento del borde de los discos por saca-bocados desafilados.",
+          step3_tip: "💡 <strong>Consejo Práctico:</strong> Mantenga el saca-bocados bien afilado para evitar daño mecánico no deseado.",
+          step4_title: "Triple Lavado con Agua Deionizada",
+          step4_desc: "Lave los discos foliares exactamente 3 veces consecutivas con agua destilada y deionizada en un vaso de precipitado.",
+          step4_care: "<strong>• Cuidados:</strong> Escurrir suavemente sin dañar el tejido ni secar con papel de forma brusca.",
+          step4_err: "<strong>• Error común:</strong> Omitir el lavado, dejando residuos de sales del suelo o iones de células cortadas.",
+          step4_tip: "💡 <strong>Consejo Práctico:</strong> El lavado elimina el \"ruido\" iónico proveniente exclusivamente del corte mecánico.",
+          step5_title: "Incubación en Tubos de Ensayo",
+          step5_desc: "Transfiera los discos lavados a tubos conteniendo exactamente 30 mL de agua destilada y deionizada, tapándolos luego.",
+          step5_care: "<strong>• Cuidados:</strong> Garantizar que todos los discos queden totalmente sumergidos en el agua pura.",
+          step5_err: "<strong>• Error común:</strong> Variación en el volumen de agua entre tubos, alterando la dilución de los iones.",
+          step5_tip: "💡 <strong>Consejo Práctico:</strong> Mantenga los tubos a temperatura ambiente constante (22-25 °C) durante el período.",
+          step6_title: "Lectura de Conductividad Libre (CL)",
+          step6_desc: "Sumerja el electrodo del conductímetro en los tubos y anote el valor de $CL$ a las 1h, 2h, 3h, 4h, 5h, 6h, 9h, 12h y 24h del inicio.",
+          step6_care: "<strong>• Cuidados:</strong> Enjuagar el electrodo con agua deionizada entre cada lectura individual.",
+          step6_err: "<strong>• Error común:</strong> Tocar los discos foliares directamente con el sensor durante la medición.",
+          step6_tip: "💡 <strong>Consejo Práctico:</strong> Homogeneice suavemente el tubo antes de introducir el sensor para equilibrar la solución.",
+          step7_title: "Calentamiento en Baño Termostático",
+          step7_desc: "Tras 24h, coloque los tubos cerrados en baño termostático a 100 °C durante 1 hora completa para termodestrucción celular.",
+          step7_care: "<strong>• Cuidados:</strong> Asegurarse de que la tapa esté bien enroscada para evitar la evaporación del agua.",
+          step7_err: "<strong>• Error común:</strong> Retirar los tubos antes de tiempo o mantener la ebullición demasiado débil.",
+          step7_tip: "💡 <strong>Consejo Práctico:</strong> El calentamiento rompe el 100% de las membranas restantes, liberando todos los iones.",
+          step8_title: "Enfriamiento a Temperatura Ambiente",
+          step8_desc: "Remueva los tubos del baño y espere hasta que alcancen la temperatura ambiente de referencia (aprox. 25 °C).",
+          step8_care: "<strong>• Cuidados:</strong> No realizar la lectura con la solución caliente para evitar interferencias en la medición.",
+          step8_err: "<strong>• Error común:</strong> Acelerar el enfriamiento con hielo, provocando condensación excesiva en las tapas.",
+          step8_tip: "💡 <strong>Consejo Práctico:</strong> Aunque el equipo tenga compensación térmica, la calibración es más precisa a 25 °C.",
+          step9_title: "Lectura de Conductividad Total y Cálculos",
+          step9_desc: "Realice la lectura de $CT$ y aplique las fórmulas para obtener los índices $PIA$, $PIR$ y $PD$ (porcentaje de daño).",
+          step9_care: "<strong>• Cuidados:</strong> Registrar correctamente la unidad de medición ($\mu\text{S/cm}$ o $\text{mS/cm}$).",
+          step9_err: "<strong>• Error común:</strong> Confundir los valores de $CL$ y $CT$ en la división matemática.",
+          step9_tip: "💡 <strong>Consejo Práctico:</strong> Utilice la calculadora interactiva de esta guía para verificar sus resultados.",
           calc_title: "Calculadora de Integridad y Daño Celular",
           calc_subtitle: "Ingrese las lecturas de conductividad para calcular automáticamente PIA, PIR y PD.",
+          f_pia_title: "Porcentaje de Integridad Absoluta (PIA):",
+          f_pia_desc: "Mide la proporción de membranas mantenidas íntegras en la muestra individual.",
+          f_pir_title: "Porcentaje de Integridad Relativa (PIR):",
+          f_pir_desc: "Compara la integridad de la planta estresada con respecto al control (testigo).",
+          f_pd_title: "Porcentaje de Daños (PD / PMD):",
+          f_pd_desc: "Expresa el porcentaje acumulado de membranas degradadas por el estrés.",
+          ctrl_card_title: "Planta Control (Testigo)",
+          stress_card_title: "Planta Estresada (Tratamiento)",
+          lbl_cl_ctrl: "Conductividad Libre ($CL_{\text{control}}$) [$\mu\text{S/cm}$]:",
+          lbl_ct_ctrl: "Conductividad Total ($CT_{\text{control}}$) [$\mu\text{S/cm}$]:",
+          res_lbl_pia_ctrl: "PIA Control ($PIA_{\text{ctrl}}$):",
+          lbl_cl_stress: "Conductividad Libre ($CL_{\text{estresada}}$) [$\mu\text{S/cm}$]:",
+          lbl_ct_stress: "Conductividad Total ($CT_{\text{estresada}}$) [$\mu\text{S/cm}$]:",
+          res_lbl_pia_stress: "PIA Estresada ($PIA_{\text{est}}$):",
+          res_pir_title: "Integridad Relativa (PIR)",
+          res_pd_title: "Porcentaje de Daños (PD / PMD)",
+          calc_diag_title: "Diagnóstico Fisiológico:",
           quiz_sec_title: "Cuestionario de Fijación de Conocimientos",
           quiz_sec_subtitle: "Evaluaciones prácticas de opción múltiple con explicación en tiempo real.",
           quiz_score_label: "Puntaje:",
@@ -951,10 +1155,90 @@
           tbl_item: "Material / Equipment",
           tbl_spec: "Technical Specification",
           tbl_fun: "Physiological / Operational Role",
+          mat_1_item: "Forage Grass Leaves",
+          mat_1_spec: "Middle third of fully expanded leaves",
+          mat_1_fun: "Biological plant material (*Festuca*, *Urochloa*)",
+          mat_2_item: "Scissors / Leaf Puncher",
+          mat_2_spec: "5 mm diameter (approximately 10 discs per sample)",
+          mat_2_fun: "Standardization of leaf surface area exposed to solution",
+          mat_3_item: "Capped Test Tubes",
+          mat_3_spec: "50 mL capacity with graduated tube rack",
+          mat_3_fun: "Disc incubation and containment of aqueous medium",
+          mat_4_item: "Distilled Deionized Water",
+          mat_4_spec: "Residual electrical conductivity close to 0 µS/cm",
+          mat_4_fun: "Receiving medium free from interfering ions",
+          mat_5_item: "Digital Conductivity Meter",
+          mat_5_spec: "Auto-calibrating probe with automatic temp. compensation",
+          mat_5_fun: "Measurement of free (CL) and total (CT) conductivity",
+          mat_6_item: "Thermostatic Water Bath",
+          mat_6_spec: "Temperature setting at 100 °C for 1 hour",
+          mat_6_fun: "Complete thermal destruction of cell membranes",
           method_title: "Step-by-Step Methodological Guide",
           method_subtitle: "Standardized benchtop procedure divided into 9 sequential steps.",
+          step1_title: "Leaf Material Sampling",
+          step1_desc: "Select fully expanded leaves preferably sampled from the middle third section of forage plants.",
+          step1_care: "<strong>• Precautions:</strong> Avoid senescent, damaged, or diseased leaves.",
+          step1_err: "<strong>• Common Error:</strong> Sampling top young or basal old leaves that display altered permeability.",
+          step1_tip: "💡 <strong>Practical Tip:</strong> Standardize sampling time to avoid diurnal thermal stress fluctuations.",
+          step2_title: "Removal of Apex and Base",
+          step2_desc: "Using lab scissors, remove the leaf tip (apex) and basal portion, keeping only the central region.",
+          step2_care: "<strong>• Precautions:</strong> Make clean cuts to minimize physical trauma along the midrib.",
+          step2_err: "<strong>• Common Error:</strong> Including leaf tips/bases that already show natural desiccation.",
+          step2_tip: "💡 <strong>Practical Tip:</strong> The middle leaf section has uniform physiological tissue maturity.",
+          step3_title: "Obtaining Leaf Discs",
+          step3_desc: "Extract approximately 10 discs of 5 mm diameter (or 3 mm uniform segments) per experimental unit.",
+          step3_care: "<strong>• Precautions:</strong> Press the puncher firmly against a clean cutting surface.",
+          step3_err: "<strong>• Common Error:</strong> Crushing disc edges due to dull or unsharpened leaf punchers.",
+          step3_tip: "💡 <strong>Practical Tip:</strong> Keep the blade sharp to prevent unintended mechanical cell tearing.",
+          step4_title: "Triple Rinse with Deionized Water",
+          step4_desc: "Rinse leaf discs exactly 3 consecutive times with pure distilled deionized water in a clean beaker.",
+          step4_care: "<strong>• Precautions:</strong> Drain gently without damaging tissue or rough paper towel drying.",
+          step4_err: "<strong>• Common Error:</strong> Skipping rinsing, leaving soil salt residues or wounded cell ions.",
+          step4_tip: "💡 <strong>Practical Tip:</strong> Rinsing removes background ionic noise caused solely by cutting wounds.",
+          step5_title: "Test Tube Incubation",
+          step5_desc: "Transfer washed discs to tubes containing exactly 30 mL of distilled deionized water and cap tightly.",
+          step5_care: "<strong>• Precautions:</strong> Ensure all discs are completely submerged in the pure water.",
+          step5_err: "<strong>• Common Error:</strong> Water volume variation between tubes altering ion dilution.",
+          step5_tip: "💡 <strong>Practical Tip:</strong> Maintain tubes at constant room temperature (22-25 °C) during incubation.",
+          step6_title: "Free Conductivity (CL) Reading",
+          step6_desc: "Submerge the probe into tubes and record $CL$ at 1h, 2h, 3h, 4h, 5h, 6h, 9h, 12h, and 24h after starting.",
+          step6_care: "<strong>• Precautions:</strong> Rinse the probe with deionized water between individual samples.",
+          step6_err: "<strong>• Common Error:</strong> Touching leaf discs directly with the sensor during reading.",
+          step6_tip: "💡 <strong>Practical Tip:</strong> Swirl the tube gently before inserting the probe to balance solution.",
+          step7_title: "Water Bath Heating",
+          step7_desc: "After 24h, place sealed tubes in a water bath held at 100 °C for 1 full hour for cell destruction.",
+          step7_care: "<strong>• Precautions:</strong> Ensure caps are tightly screwed to prevent water evaporation.",
+          step7_err: "<strong>• Common Error:</strong> Removing tubes early or maintaining weak boiling action.",
+          step7_tip: "💡 <strong>Practical Tip:</strong> Heating ruptures 100% of remaining membranes, releasing total cell ions.",
+          step8_title: "Cooling to Room Temperature",
+          step8_desc: "Remove tubes from water bath and allow them to cool down to reference room temp (~25 °C).",
+          step8_care: "<strong>• Precautions:</strong> Do not measure hot solution to avoid thermal electrical distortion.",
+          step8_err: "<strong>• Common Error:</strong> Accelerating cooling with ice, causing excessive inner cap condensation.",
+          step8_tip: "💡 <strong>Practical Tip:</strong> Although meters have temperature compensation, 25 °C ensures max accuracy.",
+          step9_title: "Total Conductivity Reading & Calculations",
+          step9_desc: "Measure $CT$ values and apply formulas to obtain $PIA$, $PIR$, and $PD$ (percentage damage) indices.",
+          step9_care: "<strong>• Precautions:</strong> Correctly record measurement units ($\mu\text{S/cm}$ or $\text{mS/cm}$).",
+          step9_err: "<strong>• Common Error:</strong> Swapping $CL$ and $CT$ values in equation division steps.",
+          step9_tip: "💡 <strong>Practical Tip:</strong> Use the interactive calculator in the next section to verify your math.",
           calc_title: "Cellular Integrity and Damage Calculator",
           calc_subtitle: "Input conductivity readings to automatically calculate PIA, PIR, and PD.",
+          f_pia_title: "Percentage of Absolute Integrity (PIA):",
+          f_pia_desc: "Measures the proportion of intact membranes in an individual sample.",
+          f_pir_title: "Percentage of Relative Integrity (PIR):",
+          f_pir_desc: "Compares stressed plant integrity relative to the control (untreated) sample.",
+          f_pd_title: "Percentage of Damage (PD / PMD):",
+          f_pd_desc: "Expresses accumulated percentage of membranes degraded by stress.",
+          ctrl_card_title: "Control Plant (Untreated Check)",
+          stress_card_title: "Stressed Plant (Treatment)",
+          lbl_cl_ctrl: "Free Conductivity ($CL_{\text{control}}$) [$\mu\text{S/cm}$]:",
+          lbl_ct_ctrl: "Total Conductivity ($CT_{\text{control}}$) [$\mu\text{S/cm}$]:",
+          res_lbl_pia_ctrl: "Control PIA ($PIA_{\text{ctrl}}$):",
+          lbl_cl_stress: "Free Conductivity ($CL_{\text{stressed}}$) [$\mu\text{S/cm}$]:",
+          lbl_ct_stress: "Total Conductivity ($CT_{\text{stressed}}$) [$\mu\text{S/cm}$]:",
+          res_lbl_pia_stress: "Stressed PIA ($PIA_{\text{est}}$):",
+          res_pir_title: "Relative Integrity (PIR)",
+          res_pd_title: "Percentage of Damage (PD / PMD)",
+          calc_diag_title: "Physiological Diagnosis:",
           quiz_sec_title: "Knowledge Assessment Quiz",
           quiz_sec_subtitle: "Multiple-choice tests with real-time explanatory feedback.",
           quiz_score_label: "Score:",
@@ -1029,7 +1313,7 @@
             "The final percentage of proteins synthesized by the plant."
           ],
           answer: 1,
-          explain_pt: "A Condutividade Livre (CL) mensura os íons que vazaram naturalmente para o meio aquoso através de membranas plasmáticas comprometidas pelo estresse.",
+          explain_pt: "A Condutividade Livre (CL) mensura os íons que vazaram naturally para o meio aquoso através de membranas plasmáticas comprometidas pelo estresse.",
           explain_es: "La Conductividad Libre (CL) mide los iones que lixiviaron naturalmente hacia el medio acuoso a través de membranas dañadas por el estrés.",
           explain_en: "Free Conductivity (CL) measures ions that naturally leaked into the aqueous medium through stress-damaged plasma membranes."
         },
@@ -1056,9 +1340,9 @@
             "Reduce solution temperature to 0 °C."
           ],
           answer: 1,
-          explain_pt: "O calor de 100 °Crompe todas as membranas celulares remanescentes, liberando a totalidade dos íons celulares e permitindo obter $CT$.",
-          explain_es: "El calor a 100 °C rompe todas las membranas celulares restantes, liberando la totalidad de los iones celulares para obtener $CT$.",
-          explain_en: "100 °C heat ruptures all remaining cell membranes, releasing total cellular ions and allowing the measurement of $CT$."
+          explain_pt: "O calor de 100 °C rompe todas as membranas celulares remanescentes, liberando a totalidade dos íons celulares e permitindo obter $CT$.",
+          explain_es: "El calor de 100 °C rompe todas las membranas celulares restantes, liberando la totalidad de los iones celulares para obtener $CT$.",
+          explain_en: "The heat of 100 °C ruptures all remaining cell membranes, releasing total cellular ions and allowing the measurement of $CT$."
         },
         {
           q_pt: "4. Qual é a fórmula correta da Porcentagem de Integridade Absoluta (PIA)?",
@@ -1255,24 +1539,38 @@
       let currentLang = 'pt';
       let userAnswers = new Array(quizQuestions.length).fill(null);
 
-      // INICIALIZAÇÃO AO CARREGAR A PÁGINA
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const iconOpen = document.getElementById('menu-icon-open');
+        const iconClose = document.getElementById('menu-icon-close');
+        if (menu) {
+          menu.classList.toggle('hidden');
+          if (iconOpen && iconClose) {
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+          }
+        }
+      }
+
       window.onload = function() {
-        renderQuiz();
-        calculateResults();
-        if (window.lucide) {
-          lucide.createIcons();
+        try {
+          renderQuiz();
+          calculateResults();
+          if (window.lucide) {
+            lucide.createIcons();
+          }
+        } catch (err) {
+          console.warn("Erro no carregamento:", err);
         }
       };
 
-      // MUDANÇA DE IDIOMA (i18n)
       function changeLanguage(lang) {
         currentLang = lang;
 
-        // Atualizar botões
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`lang-${lang}`).classList.add('active');
+        const activeBtn = document.getElementById(`lang-${lang}`);
+        if (activeBtn) activeBtn.classList.add('active');
 
-        // Atualizar textos do DOM com atributods data-i18n
         const dict = translations[lang];
         if (dict) {
           for (const key in dict) {
@@ -1283,44 +1581,36 @@
           }
         }
 
-        // Re-renderizar o Quiz no novo idioma
         renderQuiz();
         calculateResults();
 
-        // Re-renderizar fórmulas do MathJax se disponível
-        if (window.MathJax && MathJax.typesetPromise) {
-          MathJax.typesetPromise();
-        }
-        if (window.lucide) {
-          lucide.createIcons();
-        }
+        try {
+          if (window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise();
+          }
+          if (window.lucide) {
+            lucide.createIcons();
+          }
+        } catch(e) {}
       }
 
-      // CÁLCULO DA CALCULADORA DE INTEGRIDADE
       function calculateResults() {
         const cl_ctrl = parseFloat(document.getElementById('cl_ctrl').value) || 0;
         const ct_ctrl = parseFloat(document.getElementById('ct_ctrl').value) || 1;
         const cl_stress = parseFloat(document.getElementById('cl_stress').value) || 0;
         const ct_stress = parseFloat(document.getElementById('ct_stress').value) || 1;
 
-        // Fórmulas
-        // PIA = 1 - (CL / CT)
         const pia_ctrl = Math.max(0, 1 - (cl_ctrl / ct_ctrl));
         const pia_stress = Math.max(0, 1 - (cl_stress / ct_stress));
 
-        // PIR = (PIA_estressada / PIA_controle) * 100
         const pir = pia_ctrl > 0 ? (pia_stress / pia_ctrl) * 100 : 0;
-
-        // PD = 100 - PIR
         const pd = 100 - pir;
 
-        // Atualização dos elementos
         document.getElementById('res_pia_ctrl').innerText = `${pia_ctrl.toFixed(4)} (${(pia_ctrl * 100).toFixed(2)}%)`;
         document.getElementById('res_pia_stress').innerText = `${pia_stress.toFixed(4)} (${(pia_stress * 100).toFixed(2)}%)`;
         document.getElementById('res_pir').innerText = `${pir.toFixed(2)}%`;
         document.getElementById('res_pd').innerText = `${pd.toFixed(2)}%`;
 
-        // Diagnóstico
         const diagEl = document.getElementById('calc_diag');
         if (pd <= 5) {
           diagEl.innerText = currentLang === 'pt' ? "Dano celular mínimo. Membranas foliares altamente preservadas." :
@@ -1340,9 +1630,9 @@
         }
       }
 
-      // RENDERIZAÇÃO DO QUIZ INTERATIVO
       function renderQuiz() {
         const container = document.getElementById('quiz-container');
+        if (!container) return;
         container.innerHTML = '';
 
         let score = 0;
@@ -1356,11 +1646,11 @@
           if (userAnswer === q.answer) score++;
 
           const qCard = document.createElement('div');
-          qCard.className = "bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4";
+          qCard.className = "bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200/80 space-y-3 sm:space-y-4";
 
           let optionsHtml = '';
           options.forEach((opt, optIdx) => {
-            let btnClass = "w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm font-medium transition flex items-start gap-3 ";
+            let btnClass = "w-full text-left p-3 rounded-xl border text-xs sm:text-sm font-medium transition flex items-start gap-2.5 touch-manipulation ";
             
             if (userAnswer === null) {
               btnClass += "bg-white border-slate-200 hover:border-embrapa-500 hover:bg-emerald-50/30 text-slate-700";
@@ -1374,8 +1664,8 @@
 
             optionsHtml += `
               <button onclick="selectOption(${idx}, ${optIdx})" ${userAnswer !== null ? 'disabled' : ''} class="${btnClass}">
-                <span class="w-5 h-5 rounded-full border border-current flex items-center justify-center shrink-0 text-[10px]">${String.fromCharCode(65 + optIdx)}</span>
-                <span>${opt}</span>
+                <span class="w-5 h-5 rounded-full border border-current flex items-center justify-center shrink-0 text-[10px] mt-0.5">${String.fromCharCode(65 + optIdx)}</span>
+                <span class="leading-snug">${opt}</span>
               </button>
             `;
           });
@@ -1383,15 +1673,17 @@
           let explainHtml = '';
           if (userAnswer !== null) {
             const isCorrect = userAnswer === q.answer;
+            const correctBadge = currentLang === 'pt' ? '✓ Resposta Correta!' : currentLang === 'es' ? '✓ ¡Respuesta Correcta!' : '✓ Correct Answer!';
+            const incorrectBadge = currentLang === 'pt' ? '✗ Resposta Incorreta.' : currentLang === 'es' ? '✗ Respuesta Incorrecta.' : '✗ Incorrect Answer.';
             explainHtml = `
-              <div class="p-4 rounded-xl border text-xs leading-relaxed ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}">
-                <strong>${isCorrect ? '✓ Resposta Correta!' : '✗ Resposta Incorreta.'}</strong> ${explain}
+              <div class="p-3.5 rounded-xl border text-xs leading-relaxed ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}">
+                <strong>${isCorrect ? correctBadge : incorrectBadge}</strong> ${explain}
               </div>
             `;
           }
 
           qCard.innerHTML = `
-            <h3 class="font-bold text-sm sm:text-base text-slate-900 leading-snug">${qText}</h3>
+            <h3 class="font-bold text-xs sm:text-base text-slate-900 leading-snug">${qText}</h3>
             <div class="space-y-2">${optionsHtml}</div>
             ${explainHtml}
           `;
@@ -1399,14 +1691,16 @@
           container.appendChild(qCard);
         });
 
-        document.getElementById('quiz-score').innerText = `${score} / ${quizQuestions.length}`;
+        const scoreEl = document.getElementById('quiz-score');
+        if (scoreEl) scoreEl.innerText = `${score} / ${quizQuestions.length}`;
 
-        if (window.MathJax && MathJax.typesetPromise) {
-          MathJax.typesetPromise();
-        }
+        try {
+          if (window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise();
+          }
+        } catch(e) {}
       }
 
-      // SELEÇÃO DE OPÇÃO NO QUIZ
       function selectOption(qIdx, optIdx) {
         userAnswers[qIdx] = optIdx;
         renderQuiz();
