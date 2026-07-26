@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Didático: Tolerância Protoplasmática Foliar em Gramíneas Forrageiras</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- MathJax para renderização de fórmulas matemáticas -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              embrapa: {
+                900: '#0d381e',
+                800: '#1b5e20',
+                700: '#2e7d32',
+                600: '#388e3c',
+                500: '#4caf50',
+                100: '#e8f5e9',
+                50: '#f1f8e9',
+              },
+              accent: {
+                amber: '#d97706',
+                sky: '#0284c7',
+                slate: '#334155'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              serif: ['Georgia', 'serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+      body { font-family: 'Inter', sans-serif; }
+      .print-break { page-break-before: always; }
+      .lang-btn.active {
+        background-color: #2e7d32;
+        color: #ffffff;
+        border-color: #4caf50;
+        font-weight: 700;
+      }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-embrapa-700 selection:text-white">
+
+    <!-- Header / Navbar Principal -->
+    <header class="sticky top-0 z-50 bg-embrapa-900 text-white shadow-md border-b border-embrapa-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="sprout" class="w-8 h-8 text-embrapa-500"></i>
+                <span class="font-bold text-lg tracking-wide hidden sm:inline" data-i18n="brand_title">UEMS / FAUBA • Fisiologia Vegetal</span>
+                <span class="font-bold text-lg tracking-wide sm:hidden" data-i18n="brand_short">Manual de Laboratório</span>
+            </div>
+            
+            <nav class="hidden lg:flex space-x-4 text-xs xl:text-sm font-medium">
+                <a href="#apresentacao" class="hover:text-embrapa-500 transition" data-i18n="nav_presentation">Apresentação</a>
+                <a href="#fundamentacao" class="hover:text-embrapa-500 transition" data-i18n="nav_theory">Princípio</a>
+                <a href="#materiais" class="hover:text-embrapa-500 transition" data-i18n="nav_materials">Materiais</a>
+                <a href="#metodologia" class="hover:text-embrapa-500 transition" data-i18n="nav_methodology">Passo a Passo</a>
+                <a href="#calculo" class="hover:text-embrapa-500 transition" data-i18n="nav_calculator">Calculadora</a>
+                <a href="#quiz" class="hover:text-embrapa-500 transition" data-i18n="nav_quiz">Quiz</a>
+                <a href="#glossario" class="hover:text-embrapa-500 transition" data-i18n="nav_glossary">Glossário</a>
+                <a href="#referencias" class="hover:text-embrapa-500 transition" data-i18n="nav_ref">Referências</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <!-- Seletor de Idioma (i18n) -->
+                <div class="inline-flex rounded-lg bg-slate-800 p-0.5 border border-slate-700 text-xs">
+                    <button onclick="changeLanguage('pt')" id="lang-pt" class="lang-btn active px-2 py-1 rounded-md transition flex items-center gap-1" title="Português (Brasil)">
+                        <span>🇧🇷</span> <span class="hidden md:inline">PT</span>
+                    </button>
+                    <button onclick="changeLanguage('es')" id="lang-es" class="lang-btn px-2 py-1 rounded-md transition flex items-center gap-1" title="Español (Argentina)">
+                        <span>🇦🇷</span> <span class="hidden md:inline">ES</span>
+                    </button>
+                    <button onclick="changeLanguage('en')" id="lang-en" class="lang-btn px-2 py-1 rounded-md transition flex items-center gap-1" title="English (United States)">
+                        <span>🇺🇸</span> <span class="hidden md:inline">EN</span>
+                    </button>
+                </div>
+
+                <button onclick="window.print()" class="bg-embrapa-700 hover:bg-embrapa-600 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                    <i data-lucide="printer" class="w-4 h-4"></i> <span class="hidden sm:inline" data-i18n="btn_print">Imprimir / PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER DA CAPA INSTITUCIONAL -->
+    <section class="relative bg-gradient-to-br from-embrapa-900 via-embrapa-800 to-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div class="max-w-5xl mx-auto relative z-10 text-center">
+            <div class="inline-flex items-center gap-2 bg-embrapa-700/60 border border-embrapa-500 text-embrapa-100 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold mb-6">
+                <i data-lucide="book-open" class="w-4 h-4"></i> <span data-i18n="hero_badge">Manual Prático de Laboratório • UEMS / FAUBA</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white mb-4" data-i18n="hero_title">
+                Avaliação da Integridade Protoplasmática Foliar em Gramíneas Forrageiras sob Estresse Salino e Hídrico
+            </h1>
+            <p class="text-sm sm:text-lg text-embrapa-100 font-light max-w-3xl mx-auto mb-8 leading-relaxed" data-i18n="hero_subtitle">
+                Guia metodológico de bancada para estudantes de graduação em Ciências Agrárias, baseado nos ensaios conduzidos na FAUBA.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-left bg-slate-900/80 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-xs max-w-5xl mx-auto">
+                <div class="flex items-start gap-2.5">
+                    <i data-lucide="user" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
+                    <div>
+                        <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_author_label">Acadêmico Bolsista</span>
+                        <span class="font-semibold text-slate-100">Benjamin Abel dos Santos</span>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <i data-lucide="award" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
+                    <div>
+                        <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_advisor_label">Orientadores</span>
+                        <span class="font-semibold text-slate-100">Prof. Dr. Tiago Zoz (UEMS) / Profa. Dra. Carla E. Di Bella (FAUBA)</span>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <i data-lucide="building-2" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
+                    <div>
+                        <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_uems_label">Origem</span>
+                        <span class="font-semibold text-slate-100">UEMS - Mundo Novo / Agronomia</span>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <i data-lucide="globe-2" class="w-4 h-4 text-embrapa-500 shrink-0 mt-0.5"></i>
+                    <div>
+                        <span class="block text-[10px] text-slate-400 font-semibold uppercase" data-i18n="meta_fauba_label">Mobilidade Internacional</span>
+                        <span class="font-semibold text-slate-100">FAUBA / Universidad de Buenos Aires</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO PRINCIPAL CONTAINER -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+        <!-- APRESENTAÇÃO E OBJETIVOS DA PESQUISA -->
+        <section id="apresentacao" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="lg:col-span-7 bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <div class="flex items-center gap-3 text-embrapa-800 mb-2">
+                    <i data-lucide="file-text" class="w-6 h-6"></i>
+                    <h2 class="text-2xl font-bold tracking-tight" data-i18n="pres_title">Apresentação do Guia Metodológico</h2>
+                </div>
+                <p class="text-slate-600 leading-relaxed text-sm" data-i18n="pres_p1">
+                    Este material didático interativo foi desenvolvido a partir das atividades realizadas durante a mobilidade internacional entre a Universidade Estadual de Mato Grosso do Sul (UEMS) e a Facultad de Agronomía da Universidad de Buenos Aires (FAUBA), pelo discente Benjamin Abel dos Santos, sob orientação do Prof. Dr. Tiago Zoz (UEMS) e da Profa. Dra. Carla E. Di Bella (FAUBA). Constitui um produto educacional destinado a apoiar o ensino da metodologia de avaliação da integridade protoplasmática foliar em gramíneas forrageiras submetidas ao estresse salino e por alagamento.
+                </p>
+                <div class="space-y-2 text-xs text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <p data-i18n="pres_bullet_1"><strong>• O Problema:</strong> O excesso de sais no solo e o alagamento provocam estresse nas plantas, afetando a absorção de água, a respiração das raízes e o crescimento.</p>
+                    <p data-i18n="pres_bullet_2"><strong>• Por que avaliar a integridade celular?</strong> A membrana celular funciona como uma barreira de proteção. Quando a planta sofre estresse, a membrana perde sua seletividade e deixa vazar sais e nutrientes de dentro da célula.</p>
+                    <p data-i18n="pres_bullet_3"><strong>• Como a condutividade elétrica ajuda?</strong> Ao colocar discos foliares em água pura, os íons liberados pelas células danificadas aumentam a condutividade elétrica da solução. Quanto maior a condutividade, maior é o dano celular.</p>
+                </div>
+                <div class="bg-embrapa-50 border-l-4 border-embrapa-700 p-3 rounded-r-lg text-xs text-embrapa-900 font-medium" data-i18n="pres_callout">
+                    <i data-lucide="info" class="inline-block w-4 h-4 mr-1 text-embrapa-700"></i> <strong>Objetivo do Protocolo:</strong> Oferecer um método simples, rápido e de baixo custo para medir o dano celular e comparar a resistência de espécies forrageiras.
+                </div>
+            </div>
+
+            <div id="objetivos" class="lg:col-span-5 bg-slate-900 text-white p-8 rounded-2xl shadow-md border border-slate-800">
+                <div class="flex items-center gap-3 mb-6 text-embrapa-500">
+                    <i data-lucide="target" class="w-6 h-6"></i>
+                    <h2 class="text-2xl font-bold tracking-tight text-white" data-i18n="obj_title">Objetivos Práticos</h2>
+                </div>
+                <ul class="space-y-3.5 text-xs sm:text-sm text-slate-300">
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                        <span data-i18n="obj_1">Compreender os efeitos do estresse salino e do alagamento nas células vegetais.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                        <span data-i18n="obj_2">Dominar o passo a passo da técnica de medição por condutividade elétrica.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                        <span data-i18n="obj_3">Aprender a operar o condutivímetro e o banho-maria para obter as leituras de CL e CT.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                        <span data-i18n="obj_4">Calcular e interpretar corretamente os índices de integridade (PIA, PIR) e dano celular (PD).</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-embrapa-500 shrink-0 mt-0.5"></i>
+                        <span data-i18n="obj_5">Comparar a tolerância entre espécies como Festuca arundinacea, Urochloa brizantha e Urochloa ruziziensis.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FUNDAMENTAÇÃO TEÓRICA E FISIOLÓGICA -->
+        <section id="fundamentacao" class="space-y-12">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i data-lucide="book-open-check" class="text-embrapa-700"></i> <span data-i18n="theory_sec_title">Princípio Fisiológico da Metodologia</span>
+                </h2>
+                <p class="text-slate-500 mt-1" data-i18n="theory_sec_subtitle">Como a resposta celular ao estresse se transforma em dado mensurável na bancada.</p>
+            </div>
+
+            <!-- Infográfico da Cascata Fisiológica em Fluxo Visually Simple com Ilustração de Folha de Gramínea por Tópico -->
+            <div class="bg-slate-100/90 p-6 sm:p-8 rounded-3xl border border-slate-200 space-y-6 shadow-inner">
+                <h4 class="text-xs uppercase font-bold text-slate-500 tracking-widest text-center" data-i18n="cascade_header">FLUXO DO DANO CELULAR E MEDIÇÃO DA CONDUTIVIDADE</h4>
+
+                <div class="space-y-6">
+                    <!-- Linha 1: Passos 1 a 3 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
+                            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold mb-2 text-xs flex items-center justify-center">1</span>
+                            <!-- Ilustração: Folha de Gramínea sofrendo Estresse Abiótico -->
+                            <svg class="w-12 h-12 my-1 text-emerald-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 54C20 54 22 30 38 14C46 6 54 4 54 4C54 4 50 14 42 24C28 40 22 54 22 54" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                <path d="M28 40C32 30 40 20 48 12" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2"/>
+                                <circle cx="16" cy="24" r="3.5" fill="#0284c7" opacity="0.8"/>
+                                <rect x="42" y="38" width="5" height="5" rx="1" fill="#d97706" opacity="0.9"/>
+                                <rect x="48" y="32" width="4" height="4" rx="1" fill="#d97706" opacity="0.9"/>
+                            </svg>
+                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step1_t">Estresse Abiótico</h5>
+                            <p class="text-xs text-slate-500" data-i18n="cascade_step1_d">Salinidade ou falta de oxigênio no solo (alagamento).</p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white p-5 rounded-2xl border border-amber-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
+                            <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-800 font-bold mb-2 text-xs flex items-center justify-center">2</span>
+                            <!-- Ilustração: Membrana de Gramínea sob Ataque de Radicais Livres -->
+                            <svg class="w-12 h-12 my-1 text-amber-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="12" y="16" width="40" height="32" rx="8" stroke="currentColor" stroke-width="2.5" stroke-dasharray="6 3"/>
+                                <path d="M28 28L32 20L36 28L44 32L36 36L32 44L28 36L20 32L28 28Z" fill="#f59e0b" opacity="0.8"/>
+                                <circle cx="48" cy="20" r="2.5" fill="#ef4444"/>
+                                <circle cx="16" cy="44" r="2.5" fill="#ef4444"/>
+                            </svg>
+                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step2_t">Dano na Membrana</h5>
+                            <p class="text-xs text-slate-500" data-i18n="cascade_step2_d">Aumento de radicais livres e perda da seletividade celular.</p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white p-5 rounded-2xl border border-rose-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
+                            <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-800 font-bold mb-2 text-xs flex items-center justify-center">3</span>
+                            <!-- Ilustração: Disco Foliar de Gramínea (Nervuras Paralelas) Liberação de Íons -->
+                            <svg class="w-12 h-12 my-1 text-rose-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="32" cy="32" r="16" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/>
+                                <path d="M24 20V44M32 16V48M40 20V44" stroke="#10b981" stroke-width="1.5"/>
+                                <path d="M12 20L6 16M10 40L4 44M52 20L58 16M54 40L60 44" stroke="#f43f5e" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="5" cy="15" r="2" fill="#f43f5e"/>
+                                <circle cx="59" cy="45" r="2" fill="#f43f5e"/>
+                            </svg>
+                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step3_t">Liberação de Sais</h5>
+                            <p class="text-xs text-slate-500" data-i18n="cascade_step3_d">Saída de íons intracelulares para a água pura.</p>
+                        </div>
+                    </div>
+
+                    <!-- Linha 2: Passos 4 e 5 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center max-w-3xl mx-auto">
+                        <!-- Card 4 -->
+                        <div class="bg-white p-5 rounded-2xl border border-sky-200 shadow-sm hover:shadow-md transition text-center flex flex-col items-center justify-between min-h-[220px]">
+                            <span class="w-8 h-8 rounded-full bg-sky-100 text-sky-800 font-bold mb-2 text-xs flex items-center justify-center">4</span>
+                            <!-- Ilustração: Tubo com Fragmentos de Gramínea e Condutivímetro -->
+                            <svg class="w-12 h-12 my-1 text-sky-600" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="24" y="12" width="16" height="40" rx="8" stroke="currentColor" stroke-width="2.5" fill="#f0f9ff"/>
+                                <path d="M25 28C25 28 28 30 32 30C36 30 39 28 39 28V44C39 48.4183 35.4183 52 31 52C26.5817 52 25 48.4183 25 44V28Z" fill="#bae6fd"/>
+                                <rect x="30" y="4" width="4" height="28" fill="#334155"/>
+                                <circle cx="32" cy="36" r="3" fill="#0284c7"/>
+                            </svg>
+                            <h5 class="font-bold text-sm text-slate-800 mb-1" data-i18n="cascade_step4_t">Aumento da Condutividade</h5>
+                            <p class="text-xs text-slate-500" data-i18n="cascade_step4_d">Leitura da condutividade elétrica livre (CL) no aparelho.</p>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="bg-embrapa-900 text-white p-5 rounded-2xl shadow-md hover:shadow-lg transition text-center flex flex-col items-center justify-between min-h-[220px]">
+                            <span class="w-8 h-8 rounded-full bg-white text-embrapa-900 font-bold mb-2 text-xs flex items-center justify-center">5</span>
+                            <!-- Ilustração: Quantificação e Avaliação do Dano da Gramínea -->
+                            <svg class="w-12 h-12 my-1 text-embrapa-400" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 48H52" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                <rect x="18" y="28" width="8" height="20" rx="2" fill="#4caf50"/>
+                                <rect x="30" y="20" width="8" height="28" rx="2" fill="#81c784"/>
+                                <rect x="42" y="36" width="8" height="12" rx="2" fill="#e57373"/>
+                                <path d="M16 22L28 14L40 24L50 10" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <h5 class="font-bold text-sm text-white mb-1" data-i18n="cascade_step5_t">Quantificação do Dano</h5>
+                            <p class="text-xs text-embrapa-200" data-i18n="cascade_step5_d">Cálculo dos índices de PIA, PIR e PD/PMD.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MATERIAIS UTILIZADOS -->
+        <section id="materiais" class="space-y-6">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i data-lucide="beaker" class="text-embrapa-700"></i> <span data-i18n="mat_title">Materiais e Equipamentos de Bancada</span>
+                </h2>
+                <p class="text-slate-500 mt-1" data-i18n="mat_subtitle">Relação de insumos e vidrarias necessários para a condução do protocolo.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm">
+                        <thead class="bg-embrapa-900 text-white font-semibold uppercase text-[11px] tracking-wider">
+                            <tr>
+                                <th class="p-3.5 sm:p-4" data-i18n="tbl_item">Material / Equipamento</th>
+                                <th class="p-3.5 sm:p-4" data-i18n="tbl_spec">Especificação Técnica</th>
+                                <th class="p-3.5 sm:p-4" data-i18n="tbl_fun">Função Fisiológica / Operacional</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-700 font-medium">
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Folhas de Gramíneas</td>
+                                <td class="p-3.5 sm:p-4">Terço médio de folhas completamente expandidas</td>
+                                <td class="p-3.5 sm:p-4">Material biológico (*Festuca*, *Urochloa*)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Tesoura / Furador Foliar</td>
+                                <td class="p-3.5 sm:p-4">Diâmetro de 5 mm (aproximadamente 10 discos por amostragem)</td>
+                                <td class="p-3.5 sm:p-4">Padronização da área foliar exposta à solução</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Tubos de Ensaio com Tampa</td>
+                                <td class="p-3.5 sm:p-4">Capacidade de 50 mL com suporte graduado</td>
+                                <td class="p-3.5 sm:p-4">Incubação dos discos e contenção do meio aquoso</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Água Destilada e Deionizada</td>
+                                <td class="p-3.5 sm:p-4">Condutividade residual próxima a 0 µS/cm</td>
+                                <td class="p-3.5 sm:p-4">Meio receptor isento de íons interferentes</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Condutivímetro Digital</td>
+                                <td class="p-3.5 sm:p-4">Eletrodo de calibração automática com compensação de temp.</td>
+                                <td class="p-3.5 sm:p-4">Quantificação da condutividade livre (CL) e total (CT)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3.5 sm:p-4 font-bold text-slate-900">Banho-Maria Termostatisado</td>
+                                <td class="p-3.5 sm:p-4">Ajuste de temperatura a 100 °C por 1 hora</td>
+                                <td class="p-3.5 sm:p-4">Termo-destruição celular completa das membranas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- METODOLOGIA PASSO A PASSO -->
+        <section id="metodologia" class="space-y-10">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i data-lucide="list-checks" class="text-embrapa-700"></i> <span data-i18n="method_title">Roteiro Metodológico Passo a Passo</span>
+                </h2>
+                <p class="text-slate-500 mt-1" data-i18n="method_subtitle">Procedimento de bancada padronizado dividido em 9 etapas sequenciais.</p>
+            </div>
+
+            <!-- GRID DAS 9 ETAPAS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- ETAPA 1 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">01</span>
+                            <i data-lucide="leaf" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Coleta do Material Foliar</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Selecione folhas totalmente expandidas localizadas preferencialmente no terço médio das plantas forrageiras.</p>
+                        
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Evitar folhas senescentes, injuriadas ou com sintomas de pragas/doenças.</p>
+                            <p><strong>• Erro comum:</strong> Amostrar folhas jovens no topo ou velhas na base que possuem permeabilidade alterada.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> Padronize o horário de amostragem para evitar variações do estresse térmico diurno.
+                    </div>
+                </div>
+
+                <!-- ETAPA 2 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">02</span>
+                            <i data-lucide="scissors" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Remoção de Ápice e Base</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Com a tesoura de laboratório, remova a ponta (ápice) e a porção basal da folha, mantendo apenas a região central.</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Realizar cortes limpos para minimizar traumatismos excessivos ao longo da nervura central.</p>
+                            <p><strong>• Erro comum:</strong> Incluir extremidades da folha que já apresentam necroses ou desidratação natural.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> A porção mediana possui maturidade fisiológica mais homogênea em gramíneas.
+                    </div>
+                </div>
+
+                <!-- ETAPA 3 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">03</span>
+                            <i data-lucide="disc" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Obtenção dos Discos Foliar</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Extraia aproximadamente 10 discos de 5 mm de diâmetro (ou fragmentos uniformes de 3 mm) por unidade experimental.</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Pressionar o vazador firmemente sobre uma superfície limpa de corte.</p>
+                            <p><strong>• Erro comum:</strong> Esmagamento das bordas dos discos por vazadores sem amolagem adequada.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> Mantenha o vazador sempre afiado para evitar o extravasamento mecânico não desejado.
+                    </div>
+                </div>
+
+                <!-- ETAPA 4 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">04</span>
+                            <i data-lucide="droplets" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Lavagem Tripla com Água Deionizada</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Lave os discos foliares exatamente 3 vezes consecutivas com água destilada e deionizada em béquer limpo.</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Escorrer suavemente sem danificar o tecido ou secar com papel absorvente de forma brusca.</p>
+                            <p><strong>• Erro comum:</strong> Negligenciar a lavagem, deixando resíduos de sais do solo ou íons das células cortadas.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> A lavagem elimina o "ruído" iônico proveniente exclusivamente do dano mecânico do corte.
+                    </div>
+                </div>
+
+                <!-- ETAPA 5 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">05</span>
+                            <i data-lucide="test-tube" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Incubação nos Tubos de Ensaio</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Transfira os discos lavados para tubos contendo exatamente 30 mL de água destilada e deionizada, vedando em seguida.</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Garantir que todos os discos fiquem totalmente imersos na água pura.</p>
+                            <p><strong>• Erro comum:</strong> Variação no volume de água entre os tubos, o que altera a diluição dos íons.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> Mantenha os tubos em temperatura ambiente constante (22-25 °C) durante o período.
+                    </div>
+                </div>
+
+                <!-- ETAPA 6 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">06</span>
+                            <i data-lucide="activity" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Leitura da Condutividade Livre (CL)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Mergulhe o eletrodo do condutivímetro nos tubos e anote o valor de $CL$ em intervalos (1h a 24h conforme protocolo).</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Lavar o eletrodo com água deionizada entre cada leitura individual.</p>
+                            <p><strong>• Erro comum:</strong> Encostar o sensor diretamente nos discos foliares durante a medição.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> Homogeneize suavemente o tubo antes de introduzir o sensor para equilibrar a solução.
+                    </div>
+                </div>
+
+                <!-- ETAPA 7 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">07</span>
+                            <i data-lucide="flame" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Aquecimento em Banho-Maria</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Após 24h, insira os tubos vedados em banho-maria mantido a 100 °C por 1 hora completa para termo-destruição celular.</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Certificar-se de que a tampa está bem rosqueada para evitar a evaporação da água.</p>
+                            <p><strong>• Erro comum:</strong> Retirar os tubos antes do tempo ou manter a água do banho em ebulição muito fraca.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> O aquecimento rompe 100% das membranas restantes, liberando todo o conteúdo iônico.
+                    </div>
+                </div>
+
+                <!-- ETAPA 8 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">08</span>
+                            <i data-lucide="thermometer-snowflake" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Resfriamento em Temperatura Ambiente</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Remova os tubos do banho-maria e aguarde até que atinjam a temperatura ambiente de referência (aprox. 25 °C).</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Não realizar a leitura com a solução quente para evitar interferência na medição elétrica.</p>
+                            <p><strong>• Erro comum:</strong> Acelerar o resfriamento com gelo, provocando condensação excessiva dentro das tampas.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> Embora o condutivímetro tenha compensação térmica, a calibração é mais precisa a 25 °C.
+                    </div>
+                </div>
+
+                <!-- ETAPA 9 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-8 h-8 rounded-full bg-embrapa-100 text-embrapa-800 font-bold text-xs flex items-center justify-center">09</span>
+                            <i data-lucide="calculator" class="w-5 h-5 text-embrapa-600"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 mb-2">Leitura da Condutividade Total e Cálculos</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Realize a leitura de $CT$ e aplique as fórmulas para obter os índices $PIA$, $PIR$ e $PD$ (porcentagem de dano).</p>
+
+                        <div class="space-y-2 text-[11px] text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <p><strong>• Cuidados:</strong> Registrar a unidade de medição ($\mu\text{S/cm}$ ou $\text{mS/cm}$) corretamente.</p>
+                            <p><strong>• Erro comum:</strong> Confundir os valores de $CL$ e $CT$ na divisão matemática das equações.</p>
+                        </div>
+                    </div>
+                    <div class="bg-embrapa-50 p-2.5 rounded-lg border-l-2 border-embrapa-600 text-[11px] text-embrapa-900 font-medium">
+                        💡 <strong>Dica Prática:</strong> Utilize a calculadora interativa deste guia na seção seguinte para conferir os resultados.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CALCULADORA INTERATIVA -->
+        <section id="calculo" class="space-y-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+            <div class="border-b border-slate-200 pb-4">
+                <div class="flex items-center gap-3 text-embrapa-800">
+                    <i data-lucide="calculator" class="w-7 h-7 text-embrapa-700"></i>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900" data-i18n="calc_title">Calculadora de Integridade e Dano Celular</h2>
+                </div>
+                <p class="text-slate-500 mt-1 text-sm" data-i18n="calc_subtitle">Insira as leituras de condutividade para calcular automaticamente PIA, PIR e PD.</p>
+            </div>
+
+            <!-- FÓRMULAS FISIOLÓGICAS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <span class="font-bold text-embrapa-800 block mb-1">Porcentagem de Integridade Absoluta (PIA):</span>
+                    <div class="text-center my-2 text-slate-800 font-mono text-sm">$$PIA = 1 - \left(\frac{CL}{CT}\right)$$</div>
+                    <p class="text-slate-500 text-[11px]">Mede a proporção de membranas mantidas íntegras na amostra individual.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <span class="font-bold text-embrapa-800 block mb-1">Porcentagem de Integridade Relativa (PIR):</span>
+                    <div class="text-center my-2 text-slate-800 font-mono text-sm">$$PIR = \left(\frac{PIA_{\text{estressada}}}{PIA_{\text{controle}}}\right) \times 100$$</div>
+                    <p class="text-slate-500 text-[11px]">Compara a integridade da planta estressada em relação à testemunha (controle).</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <span class="font-bold text-embrapa-800 block mb-1">Porcentagem de Danos (PD / PMD):</span>
+                    <div class="text-center my-2 text-slate-800 font-mono text-sm">$$PD = 100 - PIR$$</div>
+                    <p class="text-slate-500 text-[11px]">Expressa a porcentagem acumulada de membranas degradadas pelo estresse.</p>
+                </div>
+            </div>
+
+            <!-- ENTRADA DE DADOS E FORMULÁRIO -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- AMOSTRA CONTROLE -->
+                <div class="space-y-4 bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
+                    <h3 class="font-bold text-base text-emerald-900 flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-700"></i> Planta Controle (Testemunha)
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Livre ($CL_{\text{controle}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="cl_ctrl" value="12.5" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Total ($CT_{\text{controle}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="ct_ctrl" value="210.0" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div class="pt-2 border-t border-emerald-200/60">
+                        <span class="text-xs text-emerald-800 font-medium">PIA Controle ($PIA_{\text{ctrl}}$):</span>
+                        <span id="res_pia_ctrl" class="font-mono font-bold text-emerald-900 text-sm ml-2">0.9405 (94.05%)</span>
+                    </div>
+                </div>
+
+                <!-- AMOSTRA ESTRESSADA -->
+                <div class="space-y-4 bg-amber-50/50 p-6 rounded-2xl border border-amber-100">
+                    <h3 class="font-bold text-base text-amber-900 flex items-center gap-2">
+                        <i data-lucide="zap" class="w-5 h-5 text-amber-700"></i> Planta Estressada (Tratamento)
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Livre ($CL_{\text{estressada}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="cl_stress" value="38.4" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Condutividade Total ($CT_{\text{estressada}}$) [$\mu\text{S/cm}$]:</label>
+                        <input type="number" id="ct_stress" value="205.0" step="0.1" oninput="calculateResults()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+                    <div class="pt-2 border-t border-amber-200/60">
+                        <span class="text-xs text-amber-800 font-medium">PIA Estressada ($PIA_{\text{est}}$):</span>
+                        <span id="res_pia_stress" class="font-mono font-bold text-amber-900 text-sm ml-2">0.8127 (81.27%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTADOS CALCULADOS -->
+            <div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div class="text-center p-3 bg-slate-800/80 rounded-xl border border-slate-700">
+                    <span class="block text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Integridade Relativa (PIR)</span>
+                    <span id="res_pir" class="text-2xl font-black text-emerald-400">86.41%</span>
+                </div>
+
+                <div class="text-center p-3 bg-slate-800/80 rounded-xl border border-slate-700">
+                    <span class="block text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Porcentagem de Danos (PD / PMD)</span>
+                    <span id="res_pd" class="text-2xl font-black text-rose-400">13.59%</span>
+                </div>
+
+                <div class="text-left text-xs space-y-1 bg-slate-800/50 p-3 rounded-xl border border-slate-700/60">
+                    <span class="font-bold text-embrapa-400 block mb-1">Diagnóstico Fisiológico:</span>
+                    <p id="calc_diag" class="text-slate-300 leading-snug">Dano celular moderado na membrana foliar induzido pela condição de estresse.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ DIDÁTICO INTERATIVO -->
+        <section id="quiz" class="space-y-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+            <div class="border-b border-slate-200 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3 text-embrapa-800">
+                        <i data-lucide="help-circle" class="w-7 h-7 text-embrapa-700"></i>
+                        <h2 class="text-3xl font-extrabold tracking-tight text-slate-900" data-i18n="quiz_sec_title">Quiz de Fixação de Conhecimentos</h2>
+                    </div>
+                    <p class="text-slate-500 mt-1 text-sm" data-i18n="quiz_sec_subtitle">Testes práticos de múltipla escolha com gabarito explicativo em tempo real.</p>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 border border-slate-200">
+                    <span data-i18n="quiz_score_label">Pontuação:</span>
+                    <span id="quiz-score" class="text-embrapa-700 font-mono text-sm">0 / 10</span>
+                </div>
+            </div>
+
+            <!-- CONTAINER DO QUIZ -->
+            <div id="quiz-container" class="space-y-6">
+                <!-- As perguntas serão renderizadas dinamicamente via JS -->
+            </div>
+        </section>
+
+        <!-- GLOSSÁRIO DE TERMOS -->
+        <section id="glossario" class="space-y-8">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i data-lucide="book-marked" class="text-embrapa-700"></i> <span data-i18n="gloss_title">Glossário de Fisiologia Vegetal</span>
+                </h2>
+                <p class="text-slate-500 mt-1" data-i18n="gloss_subtitle">Definições técnicas e conceitos fundamentais aplicados no protocolo.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g1_t">Integridade Protoplasmática</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g1_d">Capacidade das membranas celulares de manterem sua estrutura, seletividade e retenção de íons internos sem vazamento para o meio aquoso externo.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g2_t">Condutividade Elétrica (CE)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g2_d">Medida da capacidade de uma solução aquosa conduzir corrente elétrica, diretamente proporcional à concentração de íons e sais dissolvidos.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g3_t">Estresse Salino</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g3_d">Condição adversa provocada pelo excesso de sais (ex: NaCl) no solo, resultando em inibição osmótica da absorção de água e toxicidade iônica direta.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g4_t">Alagamento / Encharcamento</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g4_d">Acúmulo excessivo de água na zona radicular que expulsa o ar do solo, levando a condições de hipóxia ou anoxia nas raízes da planta.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g5_t">Radicais Livres (ERO)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g5_d">Espécies Reativas de Oxigênio (como peróxido e radical superóxido) que atacam os lipídios das membranas durante condições de estresse metabólico.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:border-embrapa-500 transition space-y-1">
+                    <h3 class="font-bold text-sm text-embrapa-900" data-i18n="g6_t">Estresse Oxidativo</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="g6_d">Desequilíbrio entre a produção exacerbada de radicais livres e a capacidade de defesa antioxidante da célula vegetal, resultando em danos celulares.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- REFERÊNCIAS BIBLIOGRÁFICAS (EXCLUSIVAS DO RELATÓRIO) -->
+        <section id="referencias" class="space-y-6">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i data-lucide="bookmark" class="text-embrapa-700"></i> <span data-i18n="ref_title">Referencias Bibliográficas</span>
+                </h2>
+                <p class="text-slate-500 mt-1 text-xs" data-i18n="ref_subtitle">Literatura científica citada exclusivamente no Relatório Final de Iniciação Científica (UEMS / FAUBA).</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs text-xs space-y-3 font-mono text-slate-700 leading-relaxed">
+                <p>ACOSTA-MOTOS, J.R.; ORTUÑO, M.F.; BERNAL-VICENTE, A.; DIAZ VIVANCOS, P.; SANCHEZ-BLANCO, M.J.; HERNANDEZ, J.A. Plant Responses to Salt Stress: Adaptive Mechanisms. <strong>Agronomy</strong>, v. 7, n. 1, p. 1-38, 2017.</p>
+                <p>ALMEIDA, A.M.; VRIEZEN, W.H.; STRAETEN, D. Molecular and Physiological mechanisms of flooding avoidance and tolerance in rice. <strong>Russian Journal of Plant Physiology</strong>, v. 50, p. 743-751, 2003.</p>
+                <p>ARGENTINA. RADRIZZANI, A. (org.). <strong>Forrajes, pasturas y pastizales</strong>. 2024. Disponível em: &lt;https://www.argentina.gob.ar/forrajes-pasturas-y-pastizales&gt;. Acesso em: 29 out. 2024.</p>
+                <p>BOLFE, É.L.; VICTORIA, D.C.; SANO, E.E.; BAYMA, G.; MASSRUHÁ, S.M.F.S.; OLIVEIRA, A.F. Potential for agricultural expansion in degraded pasture lands in Brazil based on geospatial databases. <strong>Land</strong>, v. 13, n. 2, p. 200, 2024.</p>
+                <p>CARVALHO, M.A.; RAMOS, A.K.B.; BRAGA, G.J.; FONSECA, C.E.L.; FERNANDES, F.D. <strong>Diversificação de pastagens: alternativa simples e de baixo custo para a intensificação dos sistemas de produção pecuário</strong>. Planaltina, DF: Embrapa Cerrados, 2021, 12p.</p>
+                <p>CÔRTES, I.H.G. et al. <strong>Urochloa brizantha (Syn. Brachiaria brizantha)</strong>. Universidade Federal de Minas Gerais (UFMG), 2020.</p>
+                <p>DAVANSO, V.M.; SOUZA, L.A.; MEDRI, M.E.; PIMENTA, J.A.; BIANCHINI, E. Photosynthesis, growth and development of Tabebuia avellanedae Lor. Ex Griseb. (Bignoniaceae) in flooded soil. <strong>Brazilian Archives of Biology and Technology</strong>, v. 45, p. 375-384, 2002.</p>
+                <p>DEXTER, S.T.; TOTTINHAM, W.E.; GRABER, L.F. Investigations of the hardiness of plants by measurement of electrical conductivity. <strong>Plant Physiology</strong>, v. 7, n. 1, p. 63-78, 1932.</p>
+                <p>DIAS-FILHO, M.B. Opções forrageiras para áreas sujeitas a inundação ou alagamento temporário. In: PEDREIRA, C.G.S. et al. (Ed.). <strong>Teoria e prática da produção animal em pastagens</strong>. Piracicaba: FEALQ, 2005. p. 71-93.</p>
+                <p>DIAS-FILHO, M.B.; LOPES, M.J.S. <strong>Triagem de forrageiras para tolerância ao excesso de água no solo</strong>. Belém: Embrapa Amazônia Oriental, 2012. 29p.</p>
+                <p>FRIBOURG, H.A.; HANNAWAY, D.B.; WEST, C.P. <strong>Tall Fescue for the Twenty-first Century</strong>. Agron. Monog. 53. ASA, CSSA, SSSA. Madison, WI, 2009. 540 p.</p>
+                <p>JIBIAO, F.; CHEN, K.; XU, J.; ABM, K.; CHEN, Y.; CHEN, L. YAN, X. Physiological effects induced by aluminium and fluoride stress in tall fescue (Festuca arundinacea Schreb). <strong>Ecotoxicology and Environmental Safety</strong>, v. 231, n. 1, p. 113192, 2022.</p>
+                <p>LABOURIAU, L.G. <strong>A germinação das sementes</strong>. Washington: Secretaria Geral da Organização dos Estados Americanos, 1983. 174p.</p>
+                <p>LEOPOLD, A.C.; MUSGRAVE, M.E.; WILLIAMS, K.M. Solute leakage resulting from leaf desiccation. <strong>Plant Physiology</strong>, v. 68, n. 6, p. 1222-1225, 1981.</p>
+                <p>LIAO, C.T.; LIN, C.H. Physiological adaptation of crop plants to flooding stress. <strong>Proceedings National Science Council</strong>, v. 25, p. 148-157, 2001.</p>
+                <p>LIMA, G.S.; SANTOS, J.B.; SOARES, L.A.A.; GHEYI, H.R.; NOBRE, R.G.; PEREIRA, R.F. Irrigação com águas salinas e aplicação de prolina foliar em cultivo de pimentão 'All Big'. <strong>Comunicata Scientiae</strong>, v. 7, p. 513-522, 2016.</p>
+                <p>MAGUIRE, J.D. Speeds of germination-aid selection and evaluation for seedling emergence and vigor. <strong>Crop Science</strong>, v. 2, p. 176-177, 1962.</p>
+                <p>MONTEIRO DE PAULA, F.; PHAM THI, A.T.; VIEIRA DA SILVA, J.; JUSTIN, A.M.; DEMANDRE, C.; MAZLIAK, P. Effects of water stress on the molecular species composition of polar lipids from Vigna unguiculata L. leaves. <strong>Plant Science</strong>, v. 66, p. 185-193, 1990.</p>
+                <p>PACIULLO, D.S.C.; GOMIDE, C.A.M.; LEITE, J.L.B.; RESENDE, H. <strong>Tecnologia e custo de produção de Brachiaria brizantha para uso sob pastejo</strong>. Juiz de Fora: Embrapa Gado de Leite, 2016. 7p.</p>
+                <p>PRINCIPI, M.A.; MATTANA, R.R.; CARDINALI, O.P.; COLODORO, J.L. Diseño y prestaciones de un prototipo de siembra directa para intersiembra de pasturas. <strong>Revista de Investigaciones Agropecuarias</strong>, v. 37, n. 1, p. 54-61, 2011.</p>
+                <p>ROY-MACAULEY, H.; ZUILY-FODIL, Y.; KIDRIC, M.; PHAM THI, A.T.; SILVA, J.V. Effect of drought stress on proteolytic activities in Phaseolus and Vigna leaves from sensitive and resistant plants. <strong>Physiologia Plantarum</strong>, v. 85, p. 90-96, 1992.</p>
+                <p>SANDVE, S.R.; KOSMALA, A.; RUDI, H.; FJELLHEIM, S.; RAPACZ, M.; YAMADA, T.; ROGNLI, O.A. Molecular mechanisms underlying frost tolerance in perennial grasses adapted to cold climates. <strong>Plant Science</strong>, v. 180, n. 1, p. 69-77, 2011.</p>
+                <p>SANTOS, C.L.C.; SILVA, C.V.A.S.; LEMOS, C.; NAVARRETE, A.A. Efeito da inoculação com Rhizophagus intraradices e suprimento parcial de fósforo no solo no tempo de germinação de Urochloa ruziziensis. <strong>Simpósio InterAgro</strong>, v. 1, n. 1, p. 24-27, 2023.</p>
+                <p>SEIBERT, C.M.; BORSOI, A. Milho segunda safra consorciado com diferentes densidades de semeadura de Brachiaria ruziziensis. <strong>Revista Cultivando o Saber</strong>, v. 13, n. 2, p. 94-103, 2020.</p>
+                <p>SILVA, S.F.; FERRARI, J.L. Descrição botânica, distribuição geográfica e potencialidades de uso da Brachiaria brizantha (Hochst. ex. A. Rich) Stapf. <strong>Enciclopédia Biosfera</strong>, v. 8, n. 14, p. 302-314, 2012.</p>
+                <p>VASQUEZ-TELLO, A.; ZUILY-FODIL, Y.; PHAM THI, A.T.; SILVA, J.V. Electrolyte and Pi leakages and soluble sugar content as physiological tests for screening resistance to water stress in Phaseolus and Vigna species. <strong>Journal of Experimental Botany</strong>, v. 41, n. 7, p. 827-832, 1990.</p>
+                <p>VIEIRA DA SILVA, J. Water stress, ultrastructure and enzymatic activity. In: LANGE, O.L. et al. (Eds.). <strong>Ecological studies 19: analysis and synthesis</strong>. Springer, p. 207-224, 1976.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 text-xs">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-3">
+            <p>© 2026 UEMS • Universidad Estadual de Mato Grosso do Sul | FAUBA • Universidad de Buenos Aires</p>
+            <p>Projeto de Iniciação Científica - Edital Conjunto N° 32/2024 DRI-PROPPI/UEMS</p>
+            <p class="text-slate-500 text-[11px]">Desenvolvido por Benjamin Abel dos Santos | Orientadores: Prof. Dr. Tiago Zoz & Profa. Dra. Carla E. Di Bella</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS DE INTERATIVIDADE E SISTEMA DE I18N -->
+    <script>
+      // DICIONÁRIO COMPLETO DE TRADUÇÃO (i18n)
+      const translations = {
+        pt: {
+          brand_title: "UEMS / FAUBA • Fisiologia Vegetal",
+          brand_short: "Manual de Laboratório",
+          nav_presentation: "Apresentação",
+          nav_theory: "Princípio",
+          nav_materials: "Materiais",
+          nav_methodology: "Passo a Passo",
+          nav_calculator: "Calculadora",
+          nav_quiz: "Quiz",
+          nav_glossary: "Glossário",
+          nav_ref: "Referências",
+          btn_print: "Imprimir / PDF",
+          hero_badge: "Manual Prático de Laboratório • UEMS / FAUBA",
+          hero_title: "Avaliação da Integridade Protoplasmática Foliar em Gramíneas Forrageiras sob Estresse Salino e Hídrico",
+          hero_subtitle: "Guia metodológico de bancada para estudantes de graduação em Ciências Agrárias, baseado nos ensaios conduzidos na FAUBA.",
+          meta_author_label: "Acadêmico Bolsista",
+          meta_advisor_label: "Orientadores",
+          meta_uems_label: "Origem",
+          meta_fauba_label: "Mobilidade Internacional",
+          pres_title: "Apresentação do Guia Metodológico",
+          pres_p1: "Este material didático interativo foi desenvolvido a partir das atividades realizadas durante a mobilidade internacional entre a Universidade Estadual de Mato Grosso do Sul (UEMS) e a Facultad de Agronomía da Universidad de Buenos Aires (FAUBA), pelo discente Benjamin Abel dos Santos, sob orientação do Prof. Dr. Tiago Zoz (UEMS) e da Profa. Dra. Carla E. Di Bella (FAUBA). Constitui um produto educacional destinado a apoiar o ensino da metodologia de avaliação da integridade protoplasmática foliar em gramíneas forrageiras submetidas ao estresse salino e por alagamento.",
+          pres_bullet_1: "• O Problema: O excesso de sais no solo e o alagamento provocam estresse nas plantas, afetando a absorção de água, a respiração das raízes e o crescimento.",
+          pres_bullet_2: "• Por que avaliar a integridade celular? A membrana celular funciona como uma barreira de proteção. Quando a planta sofre estresse, a membrana perde sua seletividade e deixa vazar sais e nutrientes de dentro da célula.",
+          pres_bullet_3: "• Como a condutividade elétrica ajuda? Ao colocar discos foliares em água pura, os íons liberados pelas células danificadas aumentam a condutividade elétrica da solução. Quanto maior a condutividade, maior é o dano celular.",
+          pres_callout: "Objetivo do Protocolo: Oferecer um método simples, rápido e de baixo custo para medir o dano celular e comparar a resistência de espécies forrageiras.",
+          obj_title: "Objetivos Práticos",
+          obj_1: "Compreender os efeitos do estresse salino e do alagamento nas células vegetais.",
+          obj_2: "Dominar o passo a passo da técnica de medição por condutividade elétrica.",
+          obj_3: "Aprender a operar o condutivímetro e o banho-maria para obter as leituras de CL e CT.",
+          obj_4: "Calcular e interpretar corretamente os índices de integridade (PIA, PIR) e dano celular (PD).",
+          obj_5: "Comparar a tolerância entre espécies como Festuca arundinacea, Urochloa brizantha e Urochloa ruziziensis.",
+          theory_sec_title: "Princípio Fisiológico da Metodologia",
+          theory_sec_subtitle: "Como a resposta celular ao estresse se transforma em dado mensurável na bancada.",
+          cascade_header: "FLUXO DO DANO CELULAR E MEDIÇÃO DA CONDUTIVIDADE",
+          cascade_step1_t: "Estresse Abiótico",
+          cascade_step1_d: "Salinidade ou falta de oxigênio no solo (alagamento).",
+          cascade_step2_t: "Dano na Membrana",
+          cascade_step2_d: "Aumento de radicais livres e perda da seletividade celular.",
+          cascade_step3_t: "Liberação de Sais",
+          cascade_step3_d: "Saída de íons intracelulares para a água pura.",
+          cascade_step4_t: "Aumento da Condutividade",
+          cascade_step4_d: "Leitura da condutividade elétrica livre (CL) no aparelho.",
+          cascade_step5_t: "Quantificação do Dano",
+          cascade_step5_d: "Cálculo dos índices de PIA, PIR e PD/PMD.",
+          mat_title: "Materiais e Equipamentos de Bancada",
+          mat_subtitle: "Relação de insumos e vidrarias necessários para a condução do protocolo.",
+          tbl_item: "Material / Equipamento",
+          tbl_spec: "Especificação Técnica",
+          tbl_fun: "Função Fisiológica / Operacional",
+          method_title: "Roteiro Metodológico Passo a Passo",
+          method_subtitle: "Procedimento de bancada padronizado dividido em 9 etapas sequenciais.",
+          calc_title: "Calculadora de Integridade e Dano Celular",
+          calc_subtitle: "Insira as leituras de condutividade para calcular automaticamente PIA, PIR e PD.",
+          quiz_sec_title: "Quiz de Fixação de Conhecimentos",
+          quiz_sec_subtitle: "Testes práticos de múltipla escolha com gabarito explicativo em tempo real.",
+          quiz_score_label: "Pontuação:",
+          gloss_title: "Glossário de Fisiologia Vegetal",
+          gloss_subtitle: "Definições técnicas e conceitos fundamentais aplicados no protocolo.",
+          g1_t: "Integridade Protoplasmática",
+          g1_d: "Capacidade das membranas celulares de manterem sua estrutura, seletividade e retenção de íons internos sem vazamento para o meio aquoso externo.",
+          g2_t: "Condutividade Elétrica (CE)",
+          g2_d: "Medida da capacidade de uma solução aquosa conduzir corrente elétrica, diretamente proporcional à concentração de íons e sais dissolvidos.",
+          g3_t: "Estresse Salino",
+          g3_d: "Condição adversa provocada pelo excesso de sais (ex: NaCl) no solo, resultando em inibição osmótica da absorção de água e toxicidade iônica direta.",
+          g4_t: "Alagamento / Encharcamento",
+          g4_d: "Acúmulo excessivo de água na zona radicular que expulsa o ar do solo, levando a condições de hipóxia ou anoxia nas raízes da planta.",
+          g5_t: "Radicais Livres (ERO)",
+          g5_d: "Espécies Reativas de Oxigênio (como peróxido e radical superóxido) que atacam os lipídios das membranas durante condições de estresse metabólico.",
+          g6_t: "Estresse Oxidativo",
+          g6_d: "Desequilíbrio entre a produção exacerbada de radicais livres e a capacidade de defesa antioxidante da célula vegetal, resultando em danos celulares.",
+          ref_title: "Referências Bibliográficas",
+          ref_subtitle: "Literatura científica citada exclusivamente no Relatório Final de Iniciação Científica (UEMS / FAUBA)."
+        },
+        es: {
+          brand_title: "UEMS / FAUBA • Fisiología Vegetal",
+          brand_short: "Manual de Laboratorio",
+          nav_presentation: "Presentación",
+          nav_theory: "Principio",
+          nav_materials: "Materiales",
+          nav_methodology: "Paso a Paso",
+          nav_calculator: "Calculadora",
+          nav_quiz: "Cuestionario",
+          nav_glossary: "Glosario",
+          nav_ref: "Referencias",
+          btn_print: "Imprimir / PDF",
+          hero_badge: "Manual Práctico de Laboratorio • UEMS / FAUBA",
+          hero_title: "Evaluación de la Integridad Protoplasmática Foliar en Gramíneas Forrajeras bajo Estrés Salino e Hídrico",
+          hero_subtitle: "Guía metodológica de mesada para estudiantes de grado en Ciencias Agrarias, basada en los ensayos realizados en la FAUBA.",
+          meta_author_label: "Estudiante Becario",
+          meta_advisor_label: "Directores",
+          meta_uems_label: "Origen",
+          meta_fauba_label: "Movilidad Internacional",
+          pres_title: "Presentación de la Guía Metodológica",
+          pres_p1: "Este material didáctico interactivo fue desarrollado a partir de las actividades realizadas durante la movilidad internacional entre la Universidad Estatal de Mato Grosso do Sul (UEMS) y la Facultad de Agronomía de la Universidad de Buenos Aires (FAUBA), por el estudiante Benjamin Abel dos Santos, bajo la dirección del Prof. Dr. Tiago Zoz (UEMS) y de la Profa. Dra. Carla E. Di Bella (FAUBA). Constituye un producto educativo destinado a apoyar la enseñanza de la metodología de evaluación de la integridad protoplasmática foliar en gramíneas forrajeras sometidas a estrés salino y por anegamiento.",
+          pres_bullet_1: "• El Problema: El exceso de sales en el suelo y el anegamiento provocan estrés en las plantas, afectando la absorción de agua, la respiración radicular y el crecimiento.",
+          pres_bullet_2: "• ¿Por qué evaluar la integridad celular? La membrana celular actúa como una barrera protectora. Bajo estrés, la membrana pierde su selectividad y deja escapar sales y nutrientes intracelulares.",
+          pres_bullet_3: "• ¿Cómo ayuda la conductividad eléctrica? Al colocar discos foliares en agua pura, los iones liberados por las células dañadas aumentan la conductividad eléctrica. A mayor conductividad, mayor es el daño celular.",
+          pres_callout: "Objetivo del Protocolo: Ofrecer un método simple, rápido y de bajo costo para medir el daño celular y comparar la resistencia de especies forrajeras.",
+          obj_title: "Objetivos Prácticos",
+          obj_1: "Comprender los efectos del estrés salino y del anegamiento en las células vegetales.",
+          obj_2: "Dominar el paso a paso de la técnica de medición por conductividad eléctrica.",
+          obj_3: "Aprender a operar el conductímetro y el baño termostático para obtener las lecturas de CL y CT.",
+          obj_4: "Calcular e interpretar correctamente los índices de integridad (PIA, PIR) y daño celular (PD).",
+          obj_5: "Comparar la tolerancia entre especies como Festuca arundinacea, Urochloa brizantha y Urochloa ruziziensis.",
+          theory_sec_title: "Principio Fisiológico de la Metodología",
+          theory_sec_subtitle: "Cómo la respuesta celular al estrés se transforma en un dato medible en la mesada.",
+          cascade_header: "FLUJO DEL DAÑO CELULAR Y MEDICIÓN DE LA CONDUCTIVIDAD",
+          cascade_step1_t: "Estrés Abiótico",
+          cascade_step1_d: "Salinidad o falta de oxígeno en el suelo (anegamiento).",
+          cascade_step2_t: "Daño en la Membrana",
+          cascade_step2_d: "Aumento de radicales libres y pérdida de selectividad celular.",
+          cascade_step3_t: "Liberación de Sales",
+          cascade_step3_d: "Salida de iones intracelulares hacia el agua pura.",
+          cascade_step4_t: "Aumento de Conductividad",
+          cascade_step4_d: "Lectura de la conductividad eléctrica libre (CL) en el equipo.",
+          cascade_step5_t: "Cuantificación del Daño",
+          cascade_step5_d: "Cálculo de los índices PIA, PIR y PD/PMD.",
+          mat_title: "Materiales y Equipos de Mesada",
+          mat_subtitle: "Relación de insumos y material de vidrio requeridos para el protocolo.",
+          tbl_item: "Material / Equipo",
+          tbl_spec: "Especificación Técnica",
+          tbl_fun: "Función Fisiológica / Operativa",
+          method_title: "Guía Metodológica Paso a Paso",
+          method_subtitle: "Procedimiento de mesada estandarizado dividido en 9 etapas secuenciales.",
+          calc_title: "Calculadora de Integridad y Daño Celular",
+          calc_subtitle: "Ingrese las lecturas de conductividad para calcular automáticamente PIA, PIR y PD.",
+          quiz_sec_title: "Cuestionario de Fijación de Conocimientos",
+          quiz_sec_subtitle: "Evaluaciones prácticas de opción múltiple con explicación en tiempo real.",
+          quiz_score_label: "Puntaje:",
+          gloss_title: "Glosario de Fisiología Vegetal",
+          gloss_subtitle: "Definiciones técnicas y conceptos fundamentales aplicados en el protocolo.",
+          g1_t: "Integridad Protoplasmática",
+          g1_d: "Capacidad de las membranas celulares para mantener su estructura, selectividad y retención de iones internos sin lixiviación hacia el medio acuoso externo.",
+          g2_t: "Conductividad Eléctrica (CE)",
+          g2_d: "Medida de la capacidad de una solución acuosa para conducir corriente eléctrica, directamente proporcional a la concentración de iones y sales disueltas.",
+          g3_t: "Estrés Salino",
+          g3_d: "Condición adversa provocada por el exceso de sales (ej: NaCl) en el suelo, resultando en inhibición osmótica de absorción de agua y toxicidad iónica directa.",
+          g4_t: "Anegamiento / Inundación",
+          g4_d: "Acumulación excesiva de agua en la zona radicular que desplaza el aire del suelo, llevando a condiciones de hipoxia o anoxia en las raíces de la planta.",
+          g5_t: "Radicales Libres (ERO)",
+          g5_d: "Especies Reactivas de Oxígeno (como peróxido y radical superóxido) que atacan los lípidos de las membranas durante condiciones de estrés metabólico.",
+          g6_t: "Estrés Oxidativo",
+          g6_d: "Desequilibrio entre la producción exacerbada de radicales libres y la capacidad de defensa antioxidante de la célula vegetal, resultando en daño celular.",
+          ref_title: "Referencias Bibliográficas",
+          ref_subtitle: "Literatura científica citada exclusivamente en el Informe Final de Iniciación Científica (UEMS / FAUBA)."
+        },
+        en: {
+          brand_title: "UEMS / FAUBA • Plant Physiology",
+          brand_short: "Laboratory Manual",
+          nav_presentation: "Presentation",
+          nav_theory: "Principle",
+          nav_materials: "Materials",
+          nav_methodology: "Step by Step",
+          nav_calculator: "Calculator",
+          nav_quiz: "Quiz",
+          nav_glossary: "Glossary",
+          nav_ref: "References",
+          btn_print: "Print / PDF",
+          hero_badge: "Practical Laboratory Manual • UEMS / FAUBA",
+          hero_title: "Evaluation of Leaf Protoplasmic Integrity in Forage Grasses Under Saline and Waterlogging Stress",
+          hero_subtitle: "Benchtop methodological guide for undergraduate agricultural science students, based on trials conducted at FAUBA.",
+          meta_author_label: "Undergraduate Scholar",
+          meta_advisor_label: "Advisors",
+          meta_uems_label: "Home Institution",
+          meta_fauba_label: "International Mobility",
+          pres_title: "Methodological Guide Presentation",
+          pres_p1: "This interactive educational material was developed based on activities carried out during the international academic mobility between the State University of Mato Grosso do Sul (UEMS) and the Faculty of Agronomy of the University of Buenos Aires (FAUBA), by student Benjamin Abel dos Santos, under the guidance of Prof. Dr. Tiago Zoz (UEMS) and Profa. Dra. Carla E. Di Bella (FAUBA). It constitutes an educational product aimed at supporting the teaching of leaf protoplasmic integrity evaluation methodology in forage grasses subjected to salt and waterlogging stress.",
+          pres_bullet_1: "• The Problem: Excess soil salts and waterlogging cause plant stress, impairing water uptake, root respiration, and overall growth.",
+          pres_bullet_2: "• Why evaluate cellular integrity? The cell membrane acts as a protective barrier. Under stress, membranes lose selectivity, leaching intracellular salts and nutrients.",
+          pres_bullet_3: "• How does electrical conductivity help? Placing leaf discs in pure water allows leaked ions to increase solution electrical conductivity. Higher conductivity indicates greater cell damage.",
+          pres_callout: "Protocol Objective: Provide a simple, rapid, and cost-effective method to measure cellular damage and compare forage species tolerance.",
+          obj_title: "Practical Objectives",
+          obj_1: "Understand abiotic stress effects (salinity and waterlogging) on plant cells.",
+          obj_2: "Master the step-by-step electrical conductivity measurement technique.",
+          obj_3: "Operate the conductivity meter and water bath to record CL and CT values.",
+          obj_4: "Calculate and correctly interpret integrity indices (PIA, PIR) and cell damage (PD).",
+          obj_5: "Compare stress tolerance among Festuca arundinacea, Urochloa brizantha, and Urochloa ruziziensis.",
+          theory_sec_title: "Physiological Principle of the Methodology",
+          theory_sec_subtitle: "How cellular responses to stress translate into measurable benchtop data.",
+          cascade_header: "CELLULAR DAMAGE FLUX AND CONDUCTIVITY MEASUREMENT",
+          cascade_step1_t: "Abiotic Stress",
+          cascade_step1_d: "Salinity or soil oxygen deficiency (waterlogging).",
+          cascade_step2_t: "Membrane Damage",
+          cascade_step2_d: "Free radical increase and loss of cellular selectivity.",
+          cascade_step3_t: "Salt Release",
+          cascade_step3_d: "Leaching of intracellular ions into pure water.",
+          cascade_step4_t: "Conductivity Increase",
+          cascade_step4_d: "Measurement of free electrical conductivity (CL) with meter.",
+          cascade_step5_t: "Damage Quantification",
+          cascade_step5_d: "Calculation of PIA, PIR, and PD/PMD indices.",
+          mat_title: "Benchtop Materials and Equipment",
+          mat_subtitle: "Technical list of supplies and glassware required to execute the protocol.",
+          tbl_item: "Material / Equipment",
+          tbl_spec: "Technical Specification",
+          tbl_fun: "Physiological / Operational Role",
+          method_title: "Step-by-Step Methodological Guide",
+          method_subtitle: "Standardized benchtop procedure divided into 9 sequential steps.",
+          calc_title: "Cellular Integrity and Damage Calculator",
+          calc_subtitle: "Input conductivity readings to automatically calculate PIA, PIR, and PD.",
+          quiz_sec_title: "Knowledge Assessment Quiz",
+          quiz_sec_subtitle: "Multiple-choice tests with real-time explanatory feedback.",
+          quiz_score_label: "Score:",
+          gloss_title: "Plant Physiology Glossary",
+          gloss_subtitle: "Technical definitions and core concepts applied in this laboratory protocol.",
+          g1_t: "Protoplasmic Integrity",
+          g1_d: "Ability of cellular membranes to maintain structure, selectivity, and internal ion retention without leaking into the external aqueous medium.",
+          g2_t: "Electrical Conductivity (EC)",
+          g2_d: "Measurement of an aqueous solution's ability to conduct electrical current, directly proportional to dissolved ion and salt concentration.",
+          g3_t: "Salinity Stress",
+          g3_d: "Adverse condition caused by excess salts (e.g., NaCl) in soil, resulting in osmotic inhibition of water uptake and direct ionic toxicity.",
+          g4_t: "Waterlogging / Flooding",
+          g4_d: "Excessive water accumulation in the root zone displacing soil air, leading to hypoxic or anoxic conditions in plant roots.",
+          g5_t: "Free Radicals (ROS)",
+          g5_d: "Reactive Oxygen Species (such as hydrogen peroxide and superoxide) that attack membrane lipids during metabolic stress conditions.",
+          g6_t: "Oxidative Stress",
+          g6_d: "Imbalance between excessive free radical production and the plant cell's antioxidant defense capacity, leading to cellular damage.",
+          ref_title: "Bibliographic References",
+          ref_subtitle: "Scientific literature cited exclusively in the Final Undergraduate Research Report (UEMS / FAUBA)."
+        }
+      };
+
+      // QUESTÕES DO QUIZ INTERATIVO (10 PERGUNTAS)
+      const quizQuestions = [
+        {
+          q_pt: "1. Qual é o principal objetivo da lavagem tripla dos discos foliares com água deionizada antes da incubação?",
+          q_es: "1. ¿Cuál es el objetivo principal del triple lavado de los discos foliares con agua deionizada antes de la incubación?",
+          q_en: "1. What is the primary purpose of triple washing leaf discs with deionized water prior to incubation?",
+          options_pt: [
+            "Aumentar a absorção de água pelos estômatos.",
+            "Eliminar íons e sais extravasados apenas pelo dano mecânico do corte.",
+            "Destruir a parede celular antes da leitura da condutividade.",
+            "Induzir o estresse salino de forma artificial."
+          ],
+          options_es: [
+            "Aumentar la absorción de agua por los estomas.",
+            "Eliminar iones y sales liberados únicamente por el daño mecánico del corte.",
+            "Destruir la pared celular antes de la lectura de conductividad.",
+            "Inducir el estrés salino de forma artificial."
+          ],
+          options_en: [
+            "Increase water absorption through stomata.",
+            "Eliminate ions and salts released solely due to mechanical cutting damage.",
+            "Destroy the cell wall prior to conductivity measurement.",
+            "Artificially induce salt stress."
+          ],
+          answer: 1,
+          explain_pt: "A lavagem tripla remove resíduos de íons liberados pelo impacto mecânico da lâmina da tesoura/vazador, isolando apenas os íons liberados por dano fisiológico prévio.",
+          explain_es: "El triple lavado elimina los residuos de iones liberados por el impacto mecánico del corte, aislando solo los iones liberados por daño fisiológico previo.",
+          explain_en: "Triple washing removes residual ions released by mechanical blade impact, isolating only ions leaked due to prior physiological stress damage."
+        },
+        {
+          q_pt: "2. O que representa o valor da Condutividade Livre (CL)?",
+          q_es: "2. ¿Qué representa el valor de la Conductividad Libre (CL)?",
+          q_en: "2. What does the Free Conductivity (CL) value represent?",
+          options_pt: [
+            "A quantidade total de água contida no tubo de ensaio.",
+            "Os íons liberados pelas células cujas membranas sofreram danos por estresse.",
+            "A condutividade residual da água deionizada pura.",
+            "A porcentagem final de proteínas sintetizadas pela planta."
+          ],
+          options_es: [
+            "La cantidad total de agua contenida en el tubo de ensayo.",
+            "Los iones liberados por las células cuyas membranas sufrieron daños por estrés.",
+            "La conductividad residual del agua deionizada pura.",
+            "El porcentaje final de proteínas sintetizadas por la planta."
+          ],
+          options_en: [
+            "The total amount of water contained in the test tube.",
+            "Ions leaked from cells whose membranes suffered stress-induced damage.",
+            "The residual conductivity of pure deionized water.",
+            "The final percentage of proteins synthesized by the plant."
+          ],
+          answer: 1,
+          explain_pt: "A Condutividade Livre (CL) mensura os íons que vazaram naturalmente para o meio aquoso através de membranas plasmáticas comprometidas pelo estresse.",
+          explain_es: "La Conductividad Libre (CL) mide los iones que lixiviaron naturalmente hacia el medio acuoso a través de membranas dañadas por el estrés.",
+          explain_en: "Free Conductivity (CL) measures ions that naturally leaked into the aqueous medium through stress-damaged plasma membranes."
+        },
+        {
+          q_pt: "3. Qual é a finalidade de submeter os tubos ao banho-maria mantido a 100 °C por 1 hora?",
+          q_es: "3. ¿Cuál es la finalidad de someter los tubos al baño termostático a 100 °C durante 1 hora?",
+          q_en: "3. What is the purpose of placing the tubes in a 100 °C water bath for 1 hour?",
+          options_pt: [
+            "Evaporar toda a água do tubo para pesar a matéria seca.",
+            "Promover a destruição térmica de 100% das membranas restantes para medir a Condutividade Total (CT).",
+            "Esterilizar os discos foliares contra fungos e bactérias.",
+            "Reduzir a temperatura da solução para 0 °C."
+          ],
+          options_es: [
+            "Evaporar toda el agua del tubo para pesar la materia seca.",
+            "Promover la destrucción térmica del 100% de las membranas restantes para medir la Conductividad Total (CT).",
+            "Esterilizar los discos foliares contra hongos y bacterias.",
+            "Reducir la temperatura de la solución a 0 °C."
+          ],
+          options_en: [
+            "Evaporate all tube water to weigh dry matter.",
+            "Promote 100% thermal destruction of remaining membranes to measure Total Conductivity (CT).",
+            "Sterilize leaf discs against fungi and bacteria.",
+            "Reduce solution temperature to 0 °C."
+          ],
+          answer: 1,
+          explain_pt: "O calor de 100 °Crompe todas as membranas celulares remanescentes, liberando a totalidade dos íons celulares e permitindo obter $CT$.",
+          explain_es: "El calor a 100 °C rompe todas las membranas celulares restantes, liberando la totalidad de los iones celulares para obtener $CT$.",
+          explain_en: "100 °C heat ruptures all remaining cell membranes, releasing total cellular ions and allowing the measurement of $CT$."
+        },
+        {
+          q_pt: "4. Qual é a fórmula correta da Porcentagem de Integridade Absoluta (PIA)?",
+          q_es: "4. ¿Cuál es la fórmula correcta de la Porcentaje de Integridad Absoluta (PIA)?",
+          q_en: "4. What is the correct formula for Percentage of Absolute Integrity (PIA)?",
+          options_pt: [
+            "PIA = CL / CT",
+            "PIA = 1 - (CL / CT)",
+            "PIA = (CL + CT) * 100",
+            "PIA = 100 - PIR"
+          ],
+          options_es: [
+            "PIA = CL / CT",
+            "PIA = 1 - (CL / CT)",
+            "PIA = (CL + CT) * 100",
+            "PIA = 100 - PIR"
+          ],
+          options_en: [
+            "PIA = CL / CT",
+            "PIA = 1 - (CL / CT)",
+            "PIA = (CL + CT) * 100",
+            "PIA = 100 - PIR"
+          ],
+          answer: 1,
+          explain_pt: "A fórmula $PIA = 1 - (CL/CT)$ subtrai a fração de íons vazados do total (100%), fornecendo a fração de membranas mantidas íntegras.",
+          explain_es: "La fórmula $PIA = 1 - (CL/CT)$ resta la fracción de iones lixiviados del total (100%), entregando la proporción de membranas íntegras.",
+          explain_en: "The formula $PIA = 1 - (CL/CT)$ subtracts leaked ion fraction from unity, giving the proportion of intact membranes."
+        },
+        {
+          q_pt: "5. Se uma planta apresenta alto valor de Porcentagem de Danos (PD), o que isso indica do ponto de vista fisiológico?",
+          q_es: "5. Si una planta presenta un alto valor de Porcentaje de Daño (PD), ¿qué indica desde el punto de vista fisiológico?",
+          q_en: "5. If a plant displays a high Percentage of Damage (PD), what does this indicate physiologically?",
+          options_pt: [
+            "Alta resistência ao estresse salino e por alagamento.",
+            "Elevado grau de degradação das membranas celulares e alta perda de seletividade.",
+            "Ausência completa de radicais livres na célula.",
+            "Maior acúmulo de biomassa e perfilhamento."
+          ],
+          options_es: [
+            "Alta resistencia al estrés salino y por anegamiento.",
+            "Elevado grado de degradación de las membranas celulares y alta pérdida de selectividad.",
+            "Ausencia completa de radicales libres en la célula.",
+            "Mayor acumulación de biomasa y macollaje."
+          ],
+          options_en: [
+            "High resistance to saline and waterlogging stress.",
+            "Severe cellular membrane degradation and high loss of selectivity.",
+            "Complete absence of free radicals in the cell.",
+            "Higher biomass accumulation and tillering."
+          ],
+          answer: 1,
+          explain_pt: "Valores elevados de PD (ou PMD) refletem intensa degradação da estrutura de lipídios da membrana por estresse oxidativo secundário.",
+          explain_es: "Valores elevados de PD (o PMD) reflejan una intensa degradación de la estructura lipídica de la membrana por estrés oxidativo.",
+          explain_en: "High PD (or PMD) values reflect severe membrane lipid structure degradation caused by secondary oxidative stress."
+        },
+        {
+          q_pt: "6. Por que é necessário aguardar o resfriamento dos tubos até 25 °C antes da leitura da Condutividade Total (CT)?",
+          q_es: "6. ¿Por qué es necesario esperar el enfriamiento de los tubos hasta 25 °C antes de la lectura de la Conductividad Total (CT)?",
+          q_en: "6. Why is it necessary to let tubes cool to 25 °C before measuring Total Conductivity (CT)?",
+          options_pt: [
+            "Para evitar variações na condutividade causadas pela temperatura elevada da solução.",
+            "Para congelar os discos foliares e evitar decomposição.",
+            "Porque a água quente destrói o sensor de plástico do condutivímetro instantaneamente.",
+            "Para permitir que os sais voltem para dentro das células."
+          ],
+          options_es: [
+            "Para evitar variaciones en la conductividad causadas por la temperatura elevada de la solución.",
+            "Para congelar los discos foliares y evitar descomposición.",
+            "Porque el agua caliente destruye el sensor de plástico del conductímetro instantáneamente.",
+            "Para permitir que las sales regresen al interior celular."
+          ],
+          options_en: [
+            "To avoid conductivity variations caused by elevated solution temperature.",
+            "To freeze leaf discs and prevent decomposition.",
+            "Because hot water instantly destroys the meter's plastic probe.",
+            "To allow salts to re-enter plant cells."
+          ],
+          answer: 0,
+          explain_pt: "A condutividade elétrica aumenta com a temperatura. Padronizar a leitura a 25 °C garante comparabilidade e precisão no condutivímetro.",
+          explain_es: "La conductividad eléctrica aumenta con la temperatura. Estandarizar la lectura a 25 °C garantiza comparabilidad y precisión.",
+          explain_en: "Electrical conductivity increases with temperature. Standardizing measurement at 25 °C ensures comparability and accuracy."
+        },
+        {
+          q_pt: "7. Por que se recomenda coletar discos foliares no terço médio de folhas completamente expandidas?",
+          q_es: "7. ¿Por qué se recomienda extraer discos foliares del tercio medio de hojas completamente expandidas?",
+          q_en: "7. Why is it recommended to sample leaf discs from the middle third of fully expanded leaves?",
+          options_pt: [
+            "Porque o terço médio apresenta maturidade fisiológica mais homogênea e uniforme.",
+            "Porque o ápice foliar não contém água nem íons.",
+            "Porque a base foliar é a única parte que realiza fotossíntese.",
+            "Apenas por facilidade de manuseio da tesoura."
+          ],
+          options_es: [
+            "Porque el tercio medio presenta una madurez fisiológica más homogénea y uniforme.",
+            "Porque el ápice foliar no contiene agua ni iones.",
+            "Porque la base foliar es la única parte que realiza fotosíntesis.",
+            "Solo por facilidad de manejo de la tijera."
+          ],
+          options_en: [
+            "Because the middle third displays more homogeneous and uniform physiological maturity.",
+            "Because the leaf tip contains neither water nor ions.",
+            "Because the leaf base is the sole photosynthetic tissue.",
+            "Merely for convenience when handling scissors."
+          ],
+          answer: 0,
+          explain_pt: "A região central das folhas de gramíneas possui maturidade tecidual uniforme, evitando variações da senescência do ápice ou do crescimento da base.",
+          explain_es: "La región central de las hojas de gramíneas posee una madurez tisular uniforme, evitando variaciones de senescencia del ápice o crecimiento basal.",
+          explain_en: "The middle leaf section of forage grasses has uniform tissue maturity, avoiding apex senescence or basal growth variations."
+        },
+        {
+          q_pt: "8. Qual é a principal consequência da falta de oxigênio (anoxia/hipóxia) na rizosfera induzida pelo alagamento?",
+          q_es: "8. ¿Cuál es la principal consecuencia de la falta de oxígeno (anoxia/hipoxia) en la rizosfera inducida por el anegamiento?",
+          q_en: "8. What is the primary consequence of oxygen deficiency (anoxia/hypoxia) in the rhizosphere caused by waterlogging?",
+          options_pt: [
+            "Aumento imediato da respiração radicular e absorção de água.",
+            "Queda na respiração das raízes, fechamento estomático e estresse oxidativo.",
+            "Aumento no perfilhamento e na biomassa da parte aérea.",
+            "Diminuição da condutividade elétrica da água."
+          ],
+          options_es: [
+            "Aumento inmediato de la respiración radicular y absorción de agua.",
+            "Caída en la respiración de las raíces, cierre estomático y estrés oxidativo.",
+            "Aumento en el macollaje y en la biomasa aérea.",
+            "Disminución de la conductividad eléctrica del agua."
+          ],
+          options_en: [
+            "Immediate increase in root respiration and water absorption.",
+            "Drop in root respiration, stomatal closure, and secondary oxidative stress.",
+            "Increased tillering and shoot biomass accumulation.",
+            "Decrease in water electrical conductivity."
+          ],
+          answer: 1,
+          explain_pt: "A anoxia reduz o ATP radicular, inibindo a absorção de água e nutrientes e gerando radicais livres que danificam as membranas foliares.",
+          explain_es: "La anoxia reduce el ATP radicular, inhibiendo la absorción de agua y nutrientes y generando radicales libres que dañan las membranas.",
+          explain_en: "Anoxia depletes root ATP, inhibiting water/nutrient uptake and triggering free radicals that damage leaf membranes."
+        },
+        {
+          q_pt: "9. Quais espécies forrageiras foram avaliadas no projeto de mobilidade acadêmica entre UEMS e FAUBA?",
+          q_es: "9. ¿Qué especies forrajeras fueron evaluadas en el proyecto de movilidad académica entre UEMS y FAUBA?",
+          q_en: "9. Which forage species were evaluated in the academic mobility project between UEMS and FAUBA?",
+          options_pt: [
+            "Festuca arundinacea, Urochloa brizantha e Urochloa ruziziensis.",
+            "Zea mays, Glycine max e Triticum aestivum.",
+            "Medicago sativa, Trifolium repens e Lotus corniculatus.",
+            "Panicum maximum, Cynodon dactylon e Pennisetum purpureum."
+          ],
+          options_es: [
+            "Festuca arundinacea, Urochloa brizantha y Urochloa ruziziensis.",
+            "Zea mays, Glycine max y Triticum aestivum.",
+            "Medicago sativa, Trifolium repens y Lotus corniculatus.",
+            "Panicum maximum, Cynodon dactylon y Pennisetum purpureum."
+          ],
+          options_en: [
+            "Festuca arundinacea, Urochloa brizantha, and Urochloa ruziziensis.",
+            "Zea mays, Glycine max, and Triticum aestivum.",
+            "Medicago sativa, Trifolium repens, and Lotus corniculatus.",
+            "Panicum maximum, Cynodon dactylon, and Pennisetum purpureum."
+          ],
+          answer: 0,
+          explain_pt: "O projeto contemplou a gramínea de clima temperado Festuca arundinacea (concluída na FAUBA) e as gramíneas tropicais Urochloa brizantha e Urochloa ruziziensis (UEMS).",
+          explain_es: "El proyecto contempló la gramínea de clima templado Festuca arundinacea (concluida en FAUBA) y las gramíneas tropicales Urochloa brizantha y Urochloa ruziziensis (UEMS).",
+          explain_en: "The project evaluated cool-season Festuca arundinacea (FAUBA trial) and tropical grasses Urochloa brizantha and Urochloa ruziziensis (UEMS)."
+        },
+        {
+          q_pt: "10. Por que a técnica de condutividade elétrica é amplamente utilizada no melhoramento genético e fisiologia vegetal?",
+          q_es: "10. ¿Por qué la técnica de conductividad eléctrica es ampliamente utilizada en mejoramiento genético y fisiología vegetal?",
+          q_en: "10. Why is the electrical conductivity technique widely used in plant breeding and plant physiology?",
+          options_pt: [
+            "Porque requer equipamentos caros de física nuclear.",
+            "Por ser um método simples, rápido, não destrutivo ao nível de campo e de baixo custo para triagem de estresse.",
+            "Porque mede diretamente a altura final das plantas sem precisar do campo.",
+            "Porque substitui a necessidade de irrigar as plantas."
+          ],
+          options_es: [
+            "Porque requiere equipos costosos de física nuclear.",
+            "Por ser un método simple, rápido y de bajo costo para evaluar la tolerancia celular al estrés.",
+            "Porque mide directamente la altura final de las plantas.",
+            "Porque reemplaza la necesidad de regar las plantas."
+          ],
+          options_en: [
+            "Because it requires expensive nuclear physics equipment.",
+            "For being a simple, rapid, and cost-effective method for screening cellular stress tolerance.",
+            "Because it directly measures final plant height.",
+            "Because it replaces the need to irrigate plants."
+          ],
+          answer: 1,
+          explain_pt: "Trata-se de um bioensaio de bancada rápido, reprodutível e econômico que permite ranquear populações e genótipos quanto à integridade celular.",
+          explain_es: "Se trata de un bioensayo de mesada rápido, reproducible y económico que permite jerarquizar genotipos según su integridad celular.",
+          explain_en: "It is a rapid, reproducible, and economical bench bioassay allowing researchers to screen genotypes for membrane integrity."
+        }
+      ];
+
+      // VARIÁVEIS DE ESTADO
+      let currentLang = 'pt';
+      let userAnswers = new Array(quizQuestions.length).fill(null);
+
+      // INICIALIZAÇÃO AO CARREGAR A PÁGINA
+      window.onload = function() {
+        renderQuiz();
+        calculateResults();
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      };
+
+      // MUDANÇA DE IDIOMA (i18n)
+      function changeLanguage(lang) {
+        currentLang = lang;
+
+        // Atualizar botões
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`lang-${lang}`).classList.add('active');
+
+        // Atualizar textos do DOM com atributods data-i18n
+        const dict = translations[lang];
+        if (dict) {
+          for (const key in dict) {
+            const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
+            elements.forEach(el => {
+              el.innerHTML = dict[key];
+            });
+          }
+        }
+
+        // Re-renderizar o Quiz no novo idioma
+        renderQuiz();
+        calculateResults();
+
+        // Re-renderizar fórmulas do MathJax se disponível
+        if (window.MathJax && MathJax.typesetPromise) {
+          MathJax.typesetPromise();
+        }
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      }
+
+      // CÁLCULO DA CALCULADORA DE INTEGRIDADE
+      function calculateResults() {
+        const cl_ctrl = parseFloat(document.getElementById('cl_ctrl').value) || 0;
+        const ct_ctrl = parseFloat(document.getElementById('ct_ctrl').value) || 1;
+        const cl_stress = parseFloat(document.getElementById('cl_stress').value) || 0;
+        const ct_stress = parseFloat(document.getElementById('ct_stress').value) || 1;
+
+        // Fórmulas
+        // PIA = 1 - (CL / CT)
+        const pia_ctrl = Math.max(0, 1 - (cl_ctrl / ct_ctrl));
+        const pia_stress = Math.max(0, 1 - (cl_stress / ct_stress));
+
+        // PIR = (PIA_estressada / PIA_controle) * 100
+        const pir = pia_ctrl > 0 ? (pia_stress / pia_ctrl) * 100 : 0;
+
+        // PD = 100 - PIR
+        const pd = 100 - pir;
+
+        // Atualização dos elementos
+        document.getElementById('res_pia_ctrl').innerText = `${pia_ctrl.toFixed(4)} (${(pia_ctrl * 100).toFixed(2)}%)`;
+        document.getElementById('res_pia_stress').innerText = `${pia_stress.toFixed(4)} (${(pia_stress * 100).toFixed(2)}%)`;
+        document.getElementById('res_pir').innerText = `${pir.toFixed(2)}%`;
+        document.getElementById('res_pd').innerText = `${pd.toFixed(2)}%`;
+
+        // Diagnóstico
+        const diagEl = document.getElementById('calc_diag');
+        if (pd <= 5) {
+          diagEl.innerText = currentLang === 'pt' ? "Dano celular mínimo. Membranas foliares altamente preservadas." :
+                             currentLang === 'es' ? "Daño celular mínimo. Membranas foliares altamente preservadas." :
+                                                    "Minimal cell damage. Highly preserved leaf membranes.";
+          diagEl.className = "text-emerald-400 font-semibold";
+        } else if (pd <= 20) {
+          diagEl.innerText = currentLang === 'pt' ? "Dano celular moderado. Perda parcial de seletividade da membrana." :
+                             currentLang === 'es' ? "Daño celular moderado. Pérdida parcial de selectividad." :
+                                                    "Moderate cell damage. Partial loss of membrane selectivity.";
+          diagEl.className = "text-amber-400 font-semibold";
+        } else {
+          diagEl.innerText = currentLang === 'pt' ? "Dano celular severo. Extensa degradação de membranas e extravasamento iônico." :
+                             currentLang === 'es' ? "Daño celular severo. Extensa degradación de membranas." :
+                                                    "Severe cell damage. Extensive membrane degradation and ion leakage.";
+          diagEl.className = "text-rose-400 font-semibold";
+        }
+      }
+
+      // RENDERIZAÇÃO DO QUIZ INTERATIVO
+      function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+
+        let score = 0;
+
+        quizQuestions.forEach((q, idx) => {
+          const qText = currentLang === 'pt' ? q.q_pt : currentLang === 'es' ? q.q_es : q.q_en;
+          const options = currentLang === 'pt' ? q.options_pt : currentLang === 'es' ? q.options_es : q.options_en;
+          const explain = currentLang === 'pt' ? q.explain_pt : currentLang === 'es' ? q.explain_es : q.explain_en;
+          const userAnswer = userAnswers[idx];
+
+          if (userAnswer === q.answer) score++;
+
+          const qCard = document.createElement('div');
+          qCard.className = "bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4";
+
+          let optionsHtml = '';
+          options.forEach((opt, optIdx) => {
+            let btnClass = "w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm font-medium transition flex items-start gap-3 ";
+            
+            if (userAnswer === null) {
+              btnClass += "bg-white border-slate-200 hover:border-embrapa-500 hover:bg-emerald-50/30 text-slate-700";
+            } else if (optIdx === q.answer) {
+              btnClass += "bg-emerald-100 border-emerald-500 text-emerald-900 font-bold";
+            } else if (userAnswer === optIdx) {
+              btnClass += "bg-rose-100 border-rose-500 text-rose-900 font-bold";
+            } else {
+              btnClass += "bg-white border-slate-200 text-slate-400 opacity-60";
+            }
+
+            optionsHtml += `
+              <button onclick="selectOption(${idx}, ${optIdx})" ${userAnswer !== null ? 'disabled' : ''} class="${btnClass}">
+                <span class="w-5 h-5 rounded-full border border-current flex items-center justify-center shrink-0 text-[10px]">${String.fromCharCode(65 + optIdx)}</span>
+                <span>${opt}</span>
+              </button>
+            `;
+          });
+
+          let explainHtml = '';
+          if (userAnswer !== null) {
+            const isCorrect = userAnswer === q.answer;
+            explainHtml = `
+              <div class="p-4 rounded-xl border text-xs leading-relaxed ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}">
+                <strong>${isCorrect ? '✓ Resposta Correta!' : '✗ Resposta Incorreta.'}</strong> ${explain}
+              </div>
+            `;
+          }
+
+          qCard.innerHTML = `
+            <h3 class="font-bold text-sm sm:text-base text-slate-900 leading-snug">${qText}</h3>
+            <div class="space-y-2">${optionsHtml}</div>
+            ${explainHtml}
+          `;
+
+          container.appendChild(qCard);
+        });
+
+        document.getElementById('quiz-score').innerText = `${score} / ${quizQuestions.length}`;
+
+        if (window.MathJax && MathJax.typesetPromise) {
+          MathJax.typesetPromise();
+        }
+      }
+
+      // SELEÇÃO DE OPÇÃO NO QUIZ
+      function selectOption(qIdx, optIdx) {
+        userAnswers[qIdx] = optIdx;
+        renderQuiz();
+      }
+    </script>
+</body>
+</html>
